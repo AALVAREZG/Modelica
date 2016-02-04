@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:sec="http://www.springframework.org/security/tags">
+    
+  <ui:composition>
+
+        <p:dialog id="ExpedienteEditTramitesDlg" widgetVar="ExpedienteEditTramitesDlg" modal="false" resizable="false" appendTo="@(content)" header="Trámites del Expediente">
+		<h:form id="ExpedienteTramitesForm">
+		 <p:growl id="growl" sticky="false" showDetail="true"/>
+		 	<p:fieldset id="display">
+		 	<p:fieldset legend="Expediente">	
+		 		<p:panelGrid columns="6" columnClasses="label, value, label, value,label, value">
+		                    <h:outputText value="Estado Expediente: " />
+		               		<h:outputText value="#{viewLicenciasMB.selected.estadoExpediente}" />
+		                	<h:outputText value="Código Interno: " />
+		               		<h:outputText value="#{viewLicenciasMB.selected.id}" />
+		               		<h:outputText value="Número Expediente: " />
+		               		<h:outputText value="#{viewLicenciasMB.selected.expediente} - #{viewLicenciasMB.selected.anyo}" styleClass="outputLabel"/>
+		                    <h:outputText value="Nif Interesado: " />
+		                    <h:outputText value="#{viewLicenciasMB.selected.nifInteresado}" styleClass="outputLabel"/>
+							<h:outputText value="Interesado: " />
+							<h:outputText value="#{viewLicenciasMB.selected.interesado}" styleClass="outputLabel"/>	 
+							<h:outputText value="Actuación: " />
+                            <h:outputText value="#{viewLicenciasMB.selected.actuacion}" styleClass="outputLabel"/>
+                            <h:outputText value="Emplazamiento " />
+                            <h:outputText value="#{viewLicenciasMB.selected.emplazamiento}" styleClass="outputLabel"/>  
+		     		 </p:panelGrid>
+		     		 <p:commandButton id="btn_nuevotramite" value="Nuevo Trámite" icon="ui-icon-newwin"
+                        style="align:center; padding:3px;font-size:15px; margin:3px;"
+                        disabled="#{viewLicenciasMB.selected.expedienteFinalizado}"
+                        update="tramitesExpedienteTable">
+                        
+                     </p:commandButton>
+                     <p:menu overlay="true" trigger="btn_nuevotramite" my="left top" at="left bottom">
+				        <p:submenu label="Procedimiento">
+				            <p:menuitem value="Providencia" actionListener="#{viewLicenciasMB.añadirTramiteaExpediente('providencia')}" update="tramitesExpedienteTable" icon="ui-icon-triangle-1-se" />
+				            <p:menuitem value="Inf. Técnico" actionListener="#{viewLicenciasMB.añadirTramiteaExpediente('inftecnico')}" update="tramitesExpedienteTable" icon="ui-icon-triangle-1-se" />
+				            <p:menuitem value="Inf. Juríd." actionListener="#{viewLicenciasMB.añadirTramiteaExpediente('infjuridico')}" update="tramitesExpedienteTable" icon="ui-icon-triangle-1-se" />
+				            <p:menuitem value="Resolución" actionListener="#{viewLicenciasMB.añadirTramiteaExpediente('resolucion')}" update="tramitesExpedienteTable" icon="ui-icon-triangle-1-se" />
+				            <p:menuitem value="Notificación" actionListener="#{viewLicenciasMB.añadirTramiteaExpediente('notificacion')}" update="tramitesExpedienteTable" icon="ui-icon-triangle-1-se" />
+				            <p:menuitem value="Otro" actionListener="#{viewLicenciasMB.añadirTramiteaExpediente('otro')}" update="tramitesExpedienteTable" icon="ui-icon-triangle-1-se"/>
+				            <p:menuitem value="Archivar" actionListener="#{viewLicenciasMB.añadirTramiteaExpediente('archivo')}" update="tramitesExpedienteTable" icon="ui-icon-triangle-1-se"/>
+				        </p:submenu>
+				        <p:submenu label="Subsanacion">
+				           <p:menuitem value="Subsanacion" actionListener="#{viewLicenciasMB.añadirTramiteaExpediente('subsanacion')}" update="tramitesExpedienteTable" icon="ui-icon-triangle-1-se" />
+				        </p:submenu>
+				     </p:menu>
+		   </p:fieldset>
+		   <p:messages></p:messages>
+   		   <p:fieldset id="tramites" legend="Tramites" disabled="#{viewLicenciasMB.selected.expedienteFinalizado}"> 
+	       <p:dataTable id="tramitesExpedienteTable" var="tramiteExpediente" value="#{viewLicenciasMB.tramitesExpediente}" 	                 rowKey="#{tramiteExpediente.idtramite}" 
+	                 selection="#{viewLicenciasMB.tramiteSelected}" emptyMessage="Sin Trámites" selectionMode="single" 
+	                 disabledSelection="#{viewLicenciasMB.selected.expedienteFinalizado}"
+	                 editable="#{!viewLicenciasMB.selected.expedienteFinalizado}" 
+	                 editMode="cell"  scrollable="true" scrollHeight="320">
+	       
+	       <p:ajax event="cellEdit" listener="#{viewLicenciasMB.onCellEdit}" update="@([id$=growl])" />
+		   
+		       <p:column headerText="fechaTramite" width="150">
+		         <p:cellEditor>
+                  <f:facet name="output">
+                    <h:outputText value="#{tramiteExpediente.fechaTramite}">
+                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                    </h:outputText>
+                  </f:facet>
+                  <f:facet name="input">
+                    <p:calendar id="button" pattern="dd-MM-yyyy" value="#{tramiteExpediente.fechaTramite}" showOn="button" locale="es" />
+                  </f:facet>
+              	</p:cellEditor>
+		           
+		        </p:column>
+		        <p:column headerText="Descripción">
+		         <p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{tramiteExpediente.descripcionTramite}" /></f:facet>
+                  <f:facet name="input"><p:inputTextarea value="#{tramiteExpediente.descripcionTramite}" rows="3" cols="50" counter="display" maxlength="254" counterTemplate="{0} caracteres restantes." autoResize="false" />
+                   <h:outputText id="display" /></f:facet>
+              	</p:cellEditor>
+              	
+		        </p:column>
+		        <p:column headerText="Asignado a" width="200">
+		         <p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{tramiteExpediente.tramiteAsignadoA}" /></f:facet>
+                  <f:facet name="input">
+                  <p:selectOneMenu value="#{tramiteExpediente.tramiteAsignadoA}" required="true">
+                        <f:selectItem itemLabel="Seleccionar" itemValue="" />
+                        <f:selectItems value="#{viewLicenciasMB.spuestos}" />
+                  </p:selectOneMenu>
+                  </f:facet>
+              	</p:cellEditor>
+		        </p:column>
+		         <p:column headerText="Estado expediente" width="200">
+                 <p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{tramiteExpediente.estadoTramite}" /></f:facet>
+                  <f:facet name="input">
+                  <p:selectOneMenu value="#{tramiteExpediente.estadoTramite}" required="true">
+                        <f:selectItem itemLabel="Seleccionar" itemValue="" />
+                        <f:selectItems value="#{viewLicenciasMB.estadosExpediente}" />
+                  </p:selectOneMenu>
+                  </f:facet>
+                </p:cellEditor>
+                </p:column>
+		        <p:column headerText="Activo" width="50">
+                        <p:selectBooleanCheckbox value="#{tramiteExpediente.tramiteActivo}">
+                         <p:ajax update="tramitesExpedienteTable,@([id$=btnactualizar])" listener="#{viewLicenciasMB.seleccionarTramiteActivo(tramiteExpediente)}" />
+                        </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="En Índice?" width="50">
+                        <p:selectBooleanCheckbox value="#{tramiteExpediente.incluirEnIndice}">
+                        </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column style="width:32px;text-align: center" rendered="#{sec:areAnyGranted('USER, ADMIN')}">
+	                <p:commandButton icon="ui-icon-trash" update="tramitesExpedienteTable" actionListener="#{viewLicenciasMB.borrarTramite(tramiteExpediente)}">
+	                   <p:confirm header="Confirmación" message="Confirmar la operación" icon="ui-icon-alert" />
+	                </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+        </p:column>
+                
+	    	</p:dataTable> 
+  		</p:fieldset>
+  		<p:separator />
+ 				
+ 				<p:commandButton id="btnactualizar" actionListener="#{viewLicenciasMB.actualizarTramitesExpediente}" value="Actualizar" 
+ 				disabled="#{!viewLicenciasMB.activarActualizar}" update="display,:expedientesListForm:listaExpedientes,:expedientesListForm:growl" oncomplete="handleSubmit(args, 'ExpedienteEditTramitesDlg');"/>
+             	<p:commandButton value="Cancelar" onclick="ExpedienteEditTramitesDlg.hide()" />
+         </p:fieldset>   
+            
+       
+            
+            <script type="text/javascript">
+            
+					
+            function start() {
+			    PF('statusDialog').show();
+			}
+			function stop() {
+			    PF('statusDialog').hide();
+			}
+			function handleSubmit(args, dialog) {
+			    var jqDialog = jQuery('#' + dialog);
+			    if (args.validationFailed) {
+				  	 jqDialog.effect('shake', {times: 3}, 100);
+				}else{
+					 PF(dialog).hide();
+					 }
+				}
+
+			</script>   
+		
+            </h:form>
+            
+        </p:dialog>
+        
+    </ui:composition>
+</html>

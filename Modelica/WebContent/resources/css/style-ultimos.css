@@ -1,0 +1,4 @@
+@CHARSET "UTF-8";
+.ui-datatable-odd {
+    background: none repeat scroll 0 0 #F2F5F9;
+}

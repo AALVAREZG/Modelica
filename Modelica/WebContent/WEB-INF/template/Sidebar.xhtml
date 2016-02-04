@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+	<h:outputStylesheet library="css" name="style-menu.css" />
+	
+	<h:form> 
+     	
+		<p:menu toggleable="true">
+        <p:submenu label="Expedientes">
+                <p:menuitem value="  Monitor" outcome="/front/dashboard" icon="ui-icon ui-icon-white ui-icon-copy" />
+               
+       		 	 <p:menuitem value=" En tramite" outcome="/front/buscar-expediente" icon="ui-icon-search" />
+       		 	 <p:menuitem value=" Histórico" outcome="/front/buscar-historico" icon="ui-icon-search" />
+       		
+       		 	<p:menuitem value="  Nuevo Expediente" outcome="/front/nuevo-tipo.xhtml" icon="ui-icon-plus" />
+            </p:submenu>
+        
+        <p:submenu label="Enlaces">
+            <p:menuitem value="Sede Electrónica" url="https://sede.casariche.es" icon="ui-icon-home"/>
+        </p:submenu>
+    </p:menu>
+	</h:form>
+	
+	</ui:composition>
+</h:body>
+</html>

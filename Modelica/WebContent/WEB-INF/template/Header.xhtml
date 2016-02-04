@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+        <h:body>
+        <ui:composition>
+        <h:outputStylesheet library="css" name="style-sheader.css" />
+        <div id="header-wrapper">
+        <div id="header" class="container">
+        
+       
+        
+       <div id="logo">
+               <h:graphicImage library="img" name="escudo_fondo_transparente.gif" width="100px"></h:graphicImage>
+            
+       </div>
+       <div id="titulo">
+            <h2><a href="#">Gestión Expedientes Urbamisno</a></h2>
+            <h2><a href="#">Ayuntamiento de Casariche</a></h2>
+       </div>
+        <div id="menu">
+            <ul>
+                <li class="current_page_item"><a href="#{request.contextPath}" accesskey="1" title="">INICIO</a></li>
+                <li><a href="#"><h:outputText value="#{request.remoteUser}"/></a></li>
+                <li><h:outputLink value="#{request.contextPath}/login?logout">SALIR</h:outputLink></li>
+              
+            </ul>
+        </div>
+        <div id="version"><h:outputText value="#{bundle.modelicaVersion} - build with #{bundle.primefacesVersion} on #{bundle.jsfVersion}."/></div>
+    </div>
+    </div>
+	  
+ 			
+	    </ui:composition>
+    </h:body>
+</html>

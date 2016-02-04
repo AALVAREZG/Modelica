@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+     
+    <h:head>
+     <title>Seleccionar Expediente</title>
+    </h:head>
+    <h:body>
+   
+<h:outputStylesheet library="css" name="style-caja.css" />
+<h:outputScript library="js" name="calendar_es.js"/>     
+<h:form id="expedientesSelectForm">
+
+ <p:growl id="growl" sticky="false" showDetail="true"/>
+    <p:dataTable id="listaExpedientes" var="expediente" value="#{seleccionarExpedienteMB.expedientes}" widgetVar="expedientesTable"
+                 emptyMessage="No encontrados expedientes con los criterios especificados" filteredValue="#{seleccionarExpedienteMB.filteredExpedientes}" 
+                 	rows="10"
+                 	paginator="true"
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="5,10,15"
+                    sortBy="#{expediente.id}" sortOrder="descending"
+                    rowKey="#{expediente.id}">
+         
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Buscar en todos los campos:" />
+                <p:inputText id="globalFilter" onkeyup="PF('expedientesTable').filter()" style="width:250px" placeholder="Buscar ..."/>
+            </p:outputPanel>
+        </f:facet>
+       <p:column headerText="ID" style="text-align: left; width:30px;" >
+                        <h:outputText value="#{expediente.id}" />
+                    </p:column>
+        <p:column filterBy="#{expediente.numEntrada}" headerText="Entrada" footerText="contains" filterMatchMode="contains" style="text-align: left; width:80px;" >
+            <h:outputText value="#{expediente.numEntrada}" />
+        </p:column>
+        
+ 		<p:column filterBy="#{expediente.expediente}" headerText="Expte" footerText="exact" filterMatchMode="exact" style="text-align: left; width:80px;" >
+    	           <h:outputText value="#{expediente.expediente}" />
+        </p:column>
+        
+        <p:column filterBy="#{expediente.anyo}" headerText="Año" footerText="startsWith" filterMatchMode="startsWith" style="text-align: left; width:80px;" >
+            <h:outputText value="#{expediente.anyo}" />
+        </p:column>
+        
+ 		       
+        <p:column filterBy="#{expediente.nifInteresado}" headerText="NIF/CIF/NIE" footerText="in" filterMatchMode="contains" style="text-align: left; width:110px;">
+    	           <h:outputText value="#{expediente.nifInteresado}" />
+        </p:column>
+        
+ 		<p:column filterBy="#{expediente.interesado}" headerText="Interesado" footerText="in" filterMatchMode="contains" >
+    	           <h:outputText value="#{expediente.interesado}" />
+        </p:column>
+        <p:column filterBy="#{expediente.estadoExpediente}" headerText="Estado Expediente" footerText="in" filterMatchMode="contains" style="text-align: CENTER; width:160px;">
+    	           <h:outputText value="#{expediente.estadoExpediente}" />
+        </p:column>
+        
+        <p:column filterBy="#{expediente.tipoExpediente}" headerText="Tipo Expediente" footerText="exact" filterMatchMode="exact" style="text-align: left; width:160px;">
+            <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('expedientesTable').filter()" >
+                    <f:selectItem itemLabel="Selecccione" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{seleccionarExpedienteMB.tiposExpediente}" />
+                </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{expediente.tipoExpediente}" />
+        </p:column>
+        <p:column style="width:32px;text-align: center">
+                  <p:commandButton id="infoButton" icon="ui-icon-info" title="Info" 
+                   actionListener="#{seleccionarExpedienteMB.openInfoExpediente(expediente)}">
+                  </p:commandButton>
+                      
+                  
+        </p:column> 
+        <p:column style="width:32px;text-align: center">
+                    <p:commandButton icon="ui-icon-transfer-e-w" title="Relacionar" actionListener="#{seleccionarExpedienteMB.selectExpedienteFromDialog(expediente)}" />
+        </p:column>
+       
+         
+    </p:dataTable>
+    
+   
+</h:form>
+
+</h:body>
+     
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:sec="http://www.springframework.org/security/tags">
+    
+  <ui:composition>
+
+        <p:dialog id="ListaExpedientesDlg" widgetVar="ListaExpedientesDlg" modal="false" resizable="false" appendTo="@(content)" header="Lista de Expedientes">
+		  <h:form id="dashboardForm3">
+                     <p:fieldset id="pListaExpedientes" legend="Expedientes"> 
+                        
+                            <p:dataTable id="listaExpedientes" var="expediente" value="#{dashboardMB.expedientes}" widgetVar="expedientesTable"
+                             emptyMessage="No encontrados expedientes con los criterios especificados" filteredValue="#{dashboardMB.filteredExpedientes}" 
+                                rows="10"
+                                paginator="true"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                                rowsPerPageTemplate="5,10,15"
+                                sortBy="#{expediente.id}" sortOrder="descending" wKey="#{expediente.id}">
+                              
+                                   
+                                    <f:facet name="header" styleClass="ui-noborder">
+                                        
+                                         <h:panelGrid columns="2" styleClass="companyHeaderGrid">
+                                         <p:outputPanel>
+                                            <h:outputText value="Buscar en todos los campos:" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('expedientesTable').filter()" style="width:250px" placeholder="Buscar ..."/>
+                                             <p:commandButton value="Eliminar búsqueda..." update="listaExpedientes" actionListener="#{dashboardMB.vaciarListaExpedientesFiltrados}" oncomplete="PF('expedientesTable').clearFilters()"></p:commandButton>
+                                              
+                                              </p:outputPanel>
+                                               <p:messages id="msgtipo" showDetail="false" autoUpdate="false" closable="false" />
+                                          </h:panelGrid>
+                                        
+                                    </f:facet>
+                                     
+                                    <f:facet name="{Exporters}">
+                                            <h:commandLink>
+                                                 <p:graphicImage library="img" name="excel.png" width="24"/>
+                                                <p:dataExporter type="xls" target="listaExpedientes" fileName="expedientes" />
+                                            </h:commandLink>
+                                 
+                                            <h:commandLink>
+                                                <p:graphicImage library="img" name="pdf.png" width="24"/>
+                                                <p:dataExporter type="pdf" target="listaExpedientes" fileName="expedientes" preProcessor="#{dashboardMB.preProcessPDF}"/>
+                                            </h:commandLink>
+                                 
+                                          
+                                        </f:facet>
+                                    <p:column filterBy="#{expediente.numEntrada}" filterStyle="display:none"  headerText="Entrada" style="text-align: left; width:60px;" >
+                                        <h:outputText value="#{expediente.numEntrada}" />
+                                    </p:column>
+                                    
+                                    <p:column filterBy="#{expediente.expediente}" filterStyle="display:none" headerText="Expte"  style="text-align: left; width:60px;" >
+                                               <h:outputText value="#{expediente.expediente}" />
+                                    </p:column>
+                                    
+                                    <p:column  filterBy="#{expediente.anyo}" filterStyle="display:none" headerText="Año"  style="text-align: left; width:60px;" >
+                                        <h:outputText value="#{expediente.anyo}" />
+                                    </p:column>
+                                    
+                                           
+                                    <p:column  filterBy="#{expediente.nifInteresado}" filterStyle="display:none" headerText="NIF/CIF/NIE"  style="text-align: left; width:80px;">
+                                               <h:outputText value="#{expediente.nifInteresado}" />
+                                    </p:column>
+                                    
+                                    <p:column filterBy="#{expediente.interesado}" filterStyle="display:none"  headerText="Interesado"  >
+                                               <h:outputText value="#{expediente.interesado}" />
+                                    </p:column>
+                                    <p:column  headerText="Estado Expediente"  style="text-align: CENTER; width:110px;">
+                                               <h:outputText value="#{expediente.estadoExpediente}" />
+                                    </p:column>
+                                    
+                                    <p:column headerText="Tipo Expediente"  style="text-align: left; width:100px;">
+                                       
+                                        <h:outputText value="#{expediente.tipoExpediente}" />
+                                    </p:column>
+                                    <p:column style="width:32px;text-align: center" exportable="false">
+                                              <p:commandButton id="infoButton" icon="ui-icon-info" title="Info" 
+                                               actionListener="#{dashboardMB.openInfoExpediente(expediente)}">
+                                                <p:ajax event="dialogReturn" listener="#{ticketNewMB.onClosePDF}" update="@([id$=growl]),@([id$=listaExpedientes])" />
+                                              </p:commandButton>
+                                             
+                                      
+                                              
+                                    </p:column> 
+                        </p:dataTable>
+                      </p:fieldset>
+                   </h:form>     
+              
+                             
+            
+        </p:dialog>
+        
+    </ui:composition>
+</html>

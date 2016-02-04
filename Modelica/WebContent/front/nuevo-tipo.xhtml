@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+  <h:head>
+  </h:head>
+  <body>
+<ui:composition template="/WEB-INF/template/Layout.xhtml">
+<ui:define name="content">
+
+<h:form>	
+ <p:growl id="growl" sticky="true" showDetail="true"/>
+    
+          <p:tab id="tipoexpediente" title="Nuevo Expediente">
+            <p:panel header="Tipo de Expediente">
+                <p:messages />
+                 <h:panelGrid columns="2" columnClasses="label, value">
+                 <h:outputLabel for="tipoExpediente" value="Tipo de Expediente: *" />
+			        <p:selectOneMenu id="tipoExpediente" value="#{asistenteLicenciaMB.fsTipoExpediente}" style="width:250px">
+			            <f:selectItem itemLabel="OBRA MENOR" itemValue="OBRAmenor" />
+			            <f:selectItem itemLabel="OBRA MAYOR" itemValue="OBRAMAYOR" />
+			            <f:selectItem itemLabel="1ª OCUPACIÓN/UTILIZACIÓN" itemValue="OCUPACION" />
+			            <f:selectItem itemLabel="SEGREGACIÓN" itemValue="SEGREGACION" />
+			            <f:selectItem itemLabel="PLANEAMIENTO" itemValue="PLANEAMIENTO" />
+			            <f:selectItem itemLabel="CERTIFICACION URBANÍSTICA" itemValue="CERTIFICADO" />
+			            <f:selectItem itemLabel="OTROS" itemValue="OTROS" />
+			            
+        			</p:selectOneMenu>
+        			
+                </h:panelGrid>
+                <p:commandButton value="Crear" action="#{asistenteLicenciaMB.nuevo}" update="growl">
+                   
+                </p:commandButton>
+               
+            </p:panel>
+        </p:tab>
+        
+      
+ 
+</h:form>
+</ui:define>
+</ui:composition>
+
+</body>
+</html>

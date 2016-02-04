@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+     
+    <h:head>
+     <title>Editar Expediente Planeamiento</title>
+    </h:head>
+    <h:body>
+   
+<h:outputStylesheet library="css" name="style-caja.css" />
+<h:outputScript library="js" name="calendar_es.js"/>     
+<h:form id="OMayorF">	
+ <p:growl id="growl" sticky="false" showDetail="true"/>
+    <p:wizard flowListener="#{asistenteExpedienteObraMayor.onFlowProcess}" nextLabel="Siguiente" backLabel="Atrás">
+        <p:tab id="datosGenerales" title="Expediente">
+            <p:panel header="Datos Expediente">
+               <p:messages autoupdate="true"/> 
+                <h:panelGrid columns="2" columnClasses="label, value">
+             
+ 					<h:outputLabel for="fechaEntrada" value="Fecha de Entrada o Incoación: *" />
+                    <p:calendar id="fechaEntrada" pattern="dd-MM-yyyy" value="#{asistenteExpedienteObraMayor.licenciaOM.fechaEntrada}" locale="es" label="Fecha Entrada" required="true" showOn="button"/>
+                    
+                    <h:outputLabel value="Num Entrada: *" for="NumeroEntrada"/>
+                    <p:inputText id="NumeroEntrada" value="#{asistenteExpedienteObraMayor.licenciaOM.numEntrada}" required="false" label="Num. Entrada">
+                     <f:validateDoubleRange minimum="1" maximum="25000" />
+                    </p:inputText>
+ 					
+ 					<h:outputLabel value="Expediente: *" for="NumeroExpediente"/>
+                    <p:inputText id="NumeroExpediente" value="#{asistenteExpedienteObraMayor.licenciaOM.expediente}" required="true" label="Num. Expte.">
+                     <f:validateDoubleRange minimum="1" maximum="1000" />
+                    </p:inputText>
+                    <h:outputLabel  for="AñoExpediente" value="Año: *"/>
+                    <p:inputText id="AñoExpediente" value="#{asistenteExpedienteObraMayor.licenciaOM.anyo}" required="true" label="Año">
+                     <f:validateDoubleRange minimum="1970" maximum="2040" />
+                    </p:inputText>
+                   
+                    <h:outputLabel value="Interesado: *" for="Interesado"/>
+                    <p:inputText id="Interesado" value="#{asistenteExpedienteObraMayor.licenciaOM.interesado}"  style="width:380px" 
+                    label="Interesado" converter="toUpperCaseConverter" required="true" />
+                    
+                    <h:outputLabel value="Nif Interesado: *" for="NifInteresado" />
+                    <p:inputText id="NifInteresado" value="#{asistenteExpedienteObraMayor.licenciaOM.nifInteresado}" required="true" label="Nif Interesado" converter="toUpperCaseConverter"
+                      validator="#{asistenteExpedienteObraMayor.validateNIF}">
+                        
+                    </p:inputText>
+ 					
+ 					<h:outputLabel value="Representante *" for="representante"/>
+                    <p:inputText id="representante" value="#{asistenteExpedienteObraMayor.licenciaOM.representante}" style="width:380px" converter="toUpperCaseConverter" label="Representante" required="false"/>
+                    
+                    <h:outputLabel value="Nif Representante: *" for="nifrepresentante"/>
+                    <p:inputText id="nifrepresentante" value="#{asistenteExpedienteObraMayor.licenciaOM.nifRepresentante}" required="false" label="Nif Representante" converter="toUpperCaseConverter" 
+                   validator="#{asistenteExpedienteObraMayor.validateNIF}">
+                    </p:inputText>
+  
+					
+				</h:panelGrid>
+             </p:panel>
+        </p:tab>
+      
+        <p:tab id="datostipo" title="Datos Específicos">
+        <p:panel header="Datos Específicos Expediente">
+         <p:messages /> 
+         <h:panelGrid columns="2" columnClasses="label, value" >
+        	   <h:outputLabel value="Actuación: *" />
+        	   <p:panelGrid columns="1">
+        	   <p:inputTextarea label="Actuación" value="#{asistenteExpedienteObraMayor.licenciaOM.actuacion}" rows="3" cols="50" counter="display" maxlength="254" counterTemplate="{0} caracteres restantes." autoResize="false" />
+                   <h:outputText id="display" />
+                </p:panelGrid>
+                    
+                    <h:outputLabel value="Emplazamiento: *" />
+                    <p:inputText id="emplazamiento" label="Emplazamiento" value="#{asistenteExpedienteObraMayor.licenciaOM.emplazamiento}"  style="width:300px" converter="toUpperCaseConverter" required="false"/>
+                    <h:outputLabel value="Ref Catastral: *" />
+                    <p:inputText id="RefCatastral" label="Ref. Catastral" value="#{asistenteExpedienteObraMayor.licenciaOM.refCatastral}"  style="text-transform: uppercase" converter="toUpperCaseConverter" required="false"/>
+                    <h:outputLabel value="Documento Técnico: *" />
+                    <p:inputText id="Documento_Técnico" label="Doc. Técnico" value="#{asistenteExpedienteObraMayor.licenciaOM.docTecnico}"  style="width:380px" converter="toUpperCaseConverter" required="false"/>
+                    <h:outputLabel value="Redactor Proyecto y Núm. Col.: *" />
+                    <p:inputText id="Redactor_Proyecto" label="Redactor Proyecto" value="#{asistenteExpedienteObraMayor.licenciaOM.redactor}"  style="width:380px" converter="toUpperCaseConverter" required="false"/>
+                    <h:outputLabel value="Núm Visado: *" />
+                    <p:inputText id="Num_Visado" label="Num. Visado" value="#{asistenteExpedienteObraMayor.licenciaOM.numVisado}"  style="width:380px" converter="toUpperCaseConverter"  required="false"/>
+       		 		<h:outputLabel value="Fecha Visado: *" />
+                    <p:inputText id="Fecha_Visado" label="Fecha Visado" value="#{asistenteExpedienteObraMayor.licenciaOM.fechaVisado}"  required="false"/>
+                 
+                    
+            </h:panelGrid>
+         </p:panel>
+	    </p:tab>
+         
+             
+        <p:tab id="confirm" title="Confirmar">
+            <p:panel header="Confirmar los datos" >
+                
+                <h:panelGrid columns="2" columnClasses="label, value" >
+                        <h:outputText value="Número Entrada: " />
+                        <h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.numEntrada}" styleClass="outputLabel"/>
+                        <h:outputText value="Número Expediente: " />
+                        <h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.expediente} - #{asistenteExpedienteObraMayor.licenciaOM.anyo}" styleClass="outputLabel"/>
+                        <h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.nifInteresado}" styleClass="outputLabel"/>
+						<h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.interesado}" styleClass="outputLabel"/>	 
+                                    
+                </h:panelGrid>
+ 					
+       			<p:outputPanel id="values">
+				    <p:separator />
+                		<h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.actuacion}" styleClass="outputLabel"/>
+						<h:outputText value=" - sito en - #{asistenteExpedienteObraMayor.licenciaOM.emplazamiento}" styleClass="outputLabel"/>	 
+            	</p:outputPanel>
+            	<p:separator />
+            	<h:panelGrid columns="1" columnClasses="value" >
+            	   <h:outputText value="Observaciones/Notas del expediente: " />
+            	   
+            	   <p:inputTextarea label="Observaciones" value="#{asistenteExpedienteObraMayor.licenciaOM.observaciones}" rows="4" cols="120" counter="display2" maxlength="500" counterTemplate="{0} caracteres restantes." autoResize="false" />
+                        <h:outputText id="display2" />
+                   <p:commandButton id="btnactualizar" value="Actualizar" actionListener="#{asistenteExpedienteObraMayor.actualizar}" disabled="#{asistenteExpedienteObraMayor.disabledBtnGuardar}" update="growl,btnactualizar" process="@this,@parent" />
+                </h:panelGrid>
+       	
+            </p:panel>
+        
+        </p:tab>
+         <p:tab id="T-PROVIDENCIA" title="Providencia">
+            <p:panel header="Generar Providencia">
+                     <p:messages /> 
+                <h:panelGrid columns="4" columnClasses="label, value, label, value">
+                    <h:outputLabel value="Estado Expediente: " />
+               		<h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.estadoExpediente}" />
+                	<h:outputText value="Código Interno: " />
+               		<h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.id}" />
+               		<h:outputText value="Número Expediente: " />
+               		<h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.expediente} - #{asistenteExpedienteObraMayor.licenciaOM.anyo}" styleClass="outputLabel"/>
+                    <h:outputText value="Nif Interesado: " />
+                    <h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.nifInteresado}" styleClass="outputLabel"/>
+					<h:outputText value="Interesado: " />
+					<h:outputText value="#{asistenteExpedienteObraMayor.licenciaOM.interesado}" styleClass="outputLabel"/>	 
+                </h:panelGrid>
+                    <p:separator />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    <h:outputLabel value="Fecha de Firma *" />
+                     <p:calendar id="fechaFirmaProv" label="Fecha Providencia" pattern="dd-MM-yyyy" value="#{asistenteExpedienteObraMayor.providenciaFecha}" locale="es" required="true" showOn="button"/>
+                   
+                    <h:outputLabel value="Linea de Firma 1 *" />
+                    <p:selectOneMenu id="firma1" value="#{asistenteExpedienteObraMayor.providenciaFirmanteCargo}" editable="true">
+                           <f:selectItem itemLabel="Tte. Alcalde-Delegado de Urbanismo" itemValue="El Tte. Alcalde Delegado de Urbanismo " />
+                           <f:selectItem itemLabel="El Alcalde" itemValue="El Alcalde" />
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Linea de Firma 2 (Delegación)*" />
+                    <p:selectOneMenu id="firma2" value="#{asistenteExpedienteObraMayor.providenciaFirmanteDelegacion}" editable="true">
+                           <f:selectItem itemLabel="Decreto núm. 323 de 16-junio-2015" itemValue="Decreto núm. 323 de 16-junio-2015" />
+                           <f:selectItem itemLabel="Indicar Otro" itemValue=" " />
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Firmante *" />
+                    <p:selectOneMenu id="firmante" value="#{asistenteExpedienteObraMayor.providenciaFirmante}"  editable="true">
+                           <f:selectItem itemLabel="José Manuél Sánchez Parrado" itemValue="José Manuél Sánchez Parrado" />
+                           <f:selectItem itemLabel="Basilio D. Carrión Gil" itemValue="Basilio D. Carrión Gil" />
+                           <f:selectItem itemLabel="Indicar Otro" itemValue="Indicar Otro" />
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Tecnico Asignado *" />
+                    <p:selectOneMenu id="tecnico" value="#{asistenteExpedienteObraMayor.providenciaTecnicoAsignado}" editable="false">
+                           <f:selectItem itemLabel="Seleccionar" itemValue="" />
+                        <f:selectItems value="#{asistenteExpedienteObraMayor.spuestos}" />
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Código de Orden *" />
+                    <p:inputText value="#{asistenteExpedienteObraMayor.providenciaCodId}" required="false"/>
+                                        
+                 </h:panelGrid>   
+					<p:commandButton value="Generar" actionListener="#{asistenteExpedienteObraMayor.generaProvidencia}" update="growl,dwbutton,opt3" 
+					disabled="#{asistenteExpedienteObraMayor.disabledBtnProvidencia}" process="@parent"/>
+				 <p:separator></p:separator>
+				  
+				 <p:dialog modal="false" widgetVar="statusDialog" header="Archivo Generado" draggable="false" closable="true" resizable="false">
+					    <h:outputText  value="Guardar documento" />
+				 </p:dialog>
+				 <p:separator />
+				 	
+				 	<h:outputText id="opt3" value="#{asistenteExpedienteObraMayor.licenciaOM.rutaProvidencia}" styleClass="outputLabel"/>
+				 	<h:outputText value=" --- " styleClass="outputLabel"/>
+				 		<p:commandButton id="dwbutton" value="Descargar Providencia" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" 
+				 		icon="ui-icon-arrowthick-1-s" disabled="#{asistenteExpedienteObraMayor.disabledBtnProvidencia}"  actionListener="#{asistenteExpedienteObraMayor.generaProvidencia}" >
+					        <p:fileDownload value="#{asistenteExpedienteObraMayor.fileProvidencia}" />
+					    </p:commandButton>
+					
+					 
+					<script type="text/javascript">
+					function start() {
+					    PF('statusDialog').show();
+					}
+					 
+					function stop() {
+					    PF('statusDialog').hide();
+					}
+					</script>
+             </p:panel>
+        </p:tab>
+      
+          
+    </p:wizard>
+ 
+       
+        </h:form>
+    </h:body>
+     
+</html>

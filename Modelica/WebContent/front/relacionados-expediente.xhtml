@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:sec="http://www.springframework.org/security/tags">
+    
+  <ui:composition>
+
+        <p:dialog id="ExpedienteEditRelacionadosDlg" widgetVar="ExpedienteEditRelacionadosDlg" modal="false" resizable="false" appendTo="@(content)" header="Expedientes Relacionados">
+		<h:form id="ExpedienteRelacionadosForm">
+		 <p:growl id="growl" sticky="false" showDetail="true"/>
+		 	<p:fieldset id="display">
+		 	<p:fieldset legend="Expediente">
+		 	<p:panelGrid columns="2">	
+		 		<p:panelGrid columns="6" columnClasses="label, value, label, value,label, value">
+		                    <h:outputText value="Estado Expediente: " />
+		               		<h:outputText value="#{viewLicenciasMB.selected.estadoExpediente}" />
+		                	<h:outputText value="Código Interno: " />
+		               		<h:outputText value="#{viewLicenciasMB.selected.id}" />
+		               		<h:outputText value="Número Expediente: " />
+		               		<h:outputText value="#{viewLicenciasMB.selected.expediente} - #{viewLicenciasMB.selected.anyo}" styleClass="outputLabel"/>
+		                    <h:outputText value="Nif Interesado: " />
+		                    <h:outputText value="#{viewLicenciasMB.selected.nifInteresado}" styleClass="outputLabel"/>
+							<h:outputText value="Interesado: " />
+							<h:outputText value="#{viewLicenciasMB.selected.interesado}" styleClass="outputLabel"/>	 
+							<h:outputText value="Actuación: " />
+                            <h:outputText value="#{viewLicenciasMB.selected.actuacion}" styleClass="outputLabel"/>
+                            <h:outputText value="Emplazamiento " />
+                            <h:outputText value="#{viewLicenciasMB.selected.emplazamiento}" styleClass="outputLabel"/>  
+		     		 </p:panelGrid>
+		     		 <p:dataTable id="listaIDsRelacionados" var="expedienteRelacionado" value="#{viewLicenciasMB.expedientesRelacionados}" widgetVar="IDsRelacionadosTable"
+                 emptyMessage="No encontrados expedientes con los criterios especificados" 
+                    rows="10" sortBy="#{expediente.id}" sortOrder="descending" style="text-align: left; width:250px;">
+                                       
+                    <p:column headerText="IdRel" style="text-align: left; width:30px;" >
+                        <h:outputText value="#{expedienteRelacionado.idrelacion}" />
+                    </p:column>
+                    <p:column headerText="ExpA" style="text-align: left; width:80px;" >
+                        <h:outputText value="#{expedienteRelacionado.idexpedientea}" />
+                    </p:column>
+                    <p:column headerText="ExpB" style="text-align: left; width:80px;" >
+                        <h:outputText value="#{expedienteRelacionado.idexpedienteb}" />
+                    </p:column>
+                 </p:dataTable>
+		     		 
+		     </p:panelGrid>
+			   <p:commandButton value="Añadir Expediente" icon="ui-icon-transfer-e-w" actionListener="#{viewLicenciasMB.openElegirExpedienteRelacionado}">
+	               <p:ajax event="dialogReturn" listener="#{viewLicenciasMB.onExpedienteChosen}" update="growl,listaExpedientesRelacionados,btnactualizar,listaIDsRelacionados" />
+	           </p:commandButton>
+		   </p:fieldset>
+		   <p:messages></p:messages>
+   		   <p:fieldset id="tramites"> 
+	        <p:dataTable id="listaExpedientesRelacionados" var="expediente" value="#{viewLicenciasMB.listaExpedientesRelacionados}" widgetVar="expedientesRelacionadosTable"
+                 emptyMessage="No encontrados expedientes con los criterios especificados" 
+                    rows="10"
+                    paginator="true"
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="5,10,15"
+                    sortBy="#{expediente.id}" sortOrder="descending"
+                    selectionMode="single" selection="#{viewLicenciasMB.expedienteRelacioadoSelected}" rowKey="#{expediente.id}">
+ 
+			        <p:ajax event="rowSelect" listener="#{viewLicenciasMB.onRowSelect}" update=":expedientesListForm:growl" />
+			        <p:ajax event="rowUnselect" listener="#{viewLicenciasMB.onRowUnselect}" update=":expedientesListForm:growl" /> 
+			        			
+			        <p:column headerText="ID" style="text-align: left; width:30px;" >
+                        <h:outputText value="#{expediente.id}" />
+                    </p:column>
+                    			       
+			        <p:column headerText="Entrada" style="text-align: left; width:80px;" >
+			            <h:outputText value="#{expediente.numEntrada}" />
+			        </p:column>
+			        
+			        <p:column headerText="Expte" style="text-align: left; width:80px;" >
+			                   <h:outputText value="#{expediente.expediente}" />
+			        </p:column>
+			        
+			        <p:column headerText="Año" style="text-align: left; width:80px;" >
+			            <h:outputText value="#{expediente.anyo}" />
+			        </p:column>
+			        
+			               
+			        <p:column headerText="NIF/CIF/NIE" style="text-align: left; width:110px;">
+			                   <h:outputText value="#{expediente.nifInteresado}" />
+			        </p:column>
+			        
+			        <p:column headerText="Interesado">
+			                   <h:outputText value="#{expediente.interesado}" />
+			        </p:column>
+			        
+			        <p:column headerText="Estado Expediente" style="text-align: CENTER; width:160px;">
+			                   <h:outputText value="#{expediente.estadoExpediente}" />
+			        </p:column>
+			        
+			        <p:column headerText="Tipo Expediente" style="text-align: left; width:160px;">
+			                   <h:outputText value="#{expediente.tipoExpediente}" />
+			        </p:column>
+			        
+			        <p:column style="width:32px;text-align: center">
+			                  <p:commandButton id="infoButton" icon="ui-icon-info" title="Info" 
+			                     update=":ExpedienteTramitesForm" actionListener="#{viewLicenciasMB.openInfoExpediente(expediente)}">
+			                    <p:ajax event="dialogReturn" listener="#{ticketNewMB.onClosePDF}"/>
+			                  </p:commandButton>
+			        </p:column> 
+			        
+			         
+			        <p:column style="width:32px;text-align: center" rendered="#{sec:areAllGranted('ADMIN')}">
+			        <p:commandButton icon="ui-icon-trash" actionListener="#{viewLicenciasMB.borrarExpedienteRelacionado(expediente)}" update="@([id$=growl]),@([id$=listaExpedientesRelacionados]),@([id$=btnactualizar]),,@([id$=listaIDsRelacionados])">
+			                <p:confirm header="Confirmación" message="Confirmar la operación" icon="ui-icon-alert" />
+			                    </p:commandButton>
+			                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+			                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			                    </p:confirmDialog>
+			        </p:column>
+       
+         
+        </p:dataTable>
+  		</p:fieldset>
+  		<p:separator />
+ 				
+ 				<p:commandButton id="btnactualizar" actionListener="#{viewLicenciasMB.actualizarExpedientesRelacionadosExpediente}" value="Actualizar" 
+ 				   disabled="#{!viewLicenciasMB.activarActualizar2}" oncomplete="handleSubmit(args, 'ExpedienteEditRelacionadosDlg');"/>
+             	<p:commandButton value="Cancelar" onclick="ExpedienteEditRelacionadosDlg.hide()" />
+             	
+         </p:fieldset>   
+            
+        
+            
+            <script type="text/javascript">
+            
+					
+            function start() {
+			    PF('statusDialog').show();
+			}
+			function stop() {
+			    PF('statusDialog').hide();
+			}
+			function handleSubmit(args, dialog) {
+			    var jqDialog = jQuery('#' + dialog);
+			    if (args.validationFailed) {
+				  	 jqDialog.effect('shake', {times: 3}, 100);
+				}else{
+					 PF(dialog).hide();
+					 }
+				}
+
+			</script>   
+		
+            </h:form>
+            
+        </p:dialog>
+        
+    </ui:composition>
+</html>

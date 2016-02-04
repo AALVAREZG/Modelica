@@ -1,0 +1,165 @@
+@CHARSET "UTF-8";
+
+body{
+
+}
+.ui-widget-content {
+    border: 0px solid #FFF;
+    color:#65501d;
+   
+}
+
+.menu-style .ui-widget-content {
+    border: 0px solid #8C8C8C;
+    color:#FFF;
+    background:#436E90;
+}
+
+.menu-style ul{
+list-style: none outside none;
+}
+.menu-style li{
+
+
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    outline: medium none !important;
+font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+font-size: 14px;
+line-height: 1.42857;
+
+}
+
+.menu-style .ui-widget-content a, .ui-widget-header a {
+    color: #F0F0F0;
+}
+.menu-style .ui-menu .ui-menu-list .ui-widget-header {
+    clear: both;
+    float: left;
+    width: 98%;
+    margin: 10px 0px;
+    height: 30px;
+    background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.35);
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      color: #FFF;
+}
+.menu-style .ui-widget-header {
+    background: linear-gradient(#FDFDFD, #DDD) repeat scroll 0% 0% transparent;
+    outline: 0px none;
+    
+    color: #000;
+    
+    font-weight: bold;
+}
+.menu-style .ui-widget {
+    font-family: "Segoe UI",Verdana,Arial,sans-serif;
+    font-size: 12px;
+}
+.menu-style a:hover{
+     background: #FCBF37;
+     color: #5a4108;
+}
+
+.menu-style .ui-icon {
+  background-image: url(#{resource['img/ui-icons_ffffff_256x240.png']}) !important;
+  margin: 0px 3px;
+}
+
+.ui-button{
+
+	background: #F5F3EE;
+	color: #7D1935;
+}
+
+.ui-tabs{
+		/* Color de fondo de productos */
+	/* background: none repeat scroll 0 0 #7D1935; */
+	 background: radial-gradient(circle at 50% 75% , #F5F3EE, #EEE) repeat scroll 0% 0% transparent;
+}
+
+.logo{
+	width: 50px;
+	padding: 0px;
+}
+.ui-tabs .ui-state-active{
+	background: #c1b28f;
+	font-color: #000000;
+	
+} 
+
+.ui-datatable tbody td {
+    border: none !important;
+}
+
+.ui-tabs .ui-state-active a, .ui-tabs .ui-state-active a:link, .ui-tabs .ui-state-active a:visited {
+	
+	color: #464c69;
+	
+}
+
+
+.ui-panelgrid .ui-widget-content{
+    background: radial-gradient(circle at 50% 75% , #F5F3EE, #EEE) repeat scroll 0% 0% transparent !important;
+}
+h3 .ui-panelgrid .ui-widget-content{
+    background: radial-gradient(circle at 50% 75% , #FFF, #EEE) repeat scroll 0% 0% transparent !important;
+}
+
+
+
+
+.ui-tabs .ui-tabs-nav{
+	/* background: none repeat scroll 0 0 #7D1935; */
+	  background: radial-gradient(circle at 50% 75% , #BDAAAF, #EEE) repeat scroll 0% 0% transparent;
+}
+.ui-tabs .ui-tabs-scrollable{
+	background: none repeat scroll 0 0 #d9c4b8;
+}
+/* zona del botón nuevo producto */
+.area0{
+	align:center;
+}
+.area0 .ui-fieldset{
+	width:89%;
+	align:center;
+	text-align:center;
+	
+	 background: radial-gradient(circle at 50% 75% , #BDAAAF, #EEE) repeat scroll 0% 0% transparent;
+}
+.area0 .ui-button{
+	background: #F5F3EE;
+	color: #7D1935;
+}
+/* fin de zona del boton nuevo producto */
+
+.ui-datatable-odd {
+    background: none repeat scroll 0 0 #F2F5F9;
+}
+.ui-fieldset{
+	/* Color de fondo del ticket */
+	background: none repeat scroll 0 0 #F5F3EE;
+}
+.ui-fieldset .ui-fieldset-legend{
+	background: none repeat scroll 0 0 #F5F5F5;
+	color: #7D1935;
+}
+.area2 .ui-panelgrid .ui-widget-content{
+    background: radial-gradient(circle at 50% 75% , #F5F3EE, #EEE) repeat scroll 0% 0% transparent !important;
+}
+.area2 .ui-datatable-odd {
+    background: none repeat scroll 0 0 #F5F5F5 ;
+}
+.area2 .ui-panel{
+	background: none repeat scroll 0 0 #d0d0bc;
+	height: 150px;
+}
+.area2 .ui-fieldset{
+	/* Color de fondo del area de información */
+	background: none repeat scroll 0 0 #88b3c0;
+	
+}
+.area2 .ui-fieldset .ui-fieldset-legend{
+	background: none repeat scroll 0 0 #F5F5F5;
+	
+}

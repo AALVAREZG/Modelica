@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+ <!--<properties resource="jdbc.properties"/> -->
+ <typeAliases>
+  <typeAlias type="es.aalvarez.modelica.model.Expediente" alias="Expediente"></typeAlias>
+  
+  <typeAlias type="es.aalvarez.modelica.model.ArticuloInformeJuridico" alias="ArticuloInformeJuridico"></typeAlias>
+  <typeAlias type="es.aalvarez.modelica.model.TramiteExpediente" alias="TramiteExpediente"></typeAlias>
+  <typeAlias type="es.aalvarez.modelica.model.Puesto" alias="Puesto"></typeAlias>
+  <typeAlias type="es.aalvarez.modelica.model.TramiteActivoXExpediente" alias="TramiteActivoXExpediente"></typeAlias>
+  <typeAlias type="es.aalvarez.modelica.model.ExpedienteRelacionado" alias="ExpedienteRelacionado"></typeAlias>
+<!--   <typeAlias type="es.aalvarez.modelica.model.AocAsunto" alias="AocAsunto"></typeAlias> -->
+ </typeAliases>
+ <environments default="development">
+     <environment id="development">
+        <transactionManager type="JDBC"/>
+        <dataSource type="JNDI">
+        <property name="data_source" value="java:comp/env/jdbc/modelicaDB"/>
+        </dataSource>
+    </environment>
+ </environments>
+  <mappers>
+   <mapper resource="es/aalvarez/modelica/dao/ExpedienteMapper.xml"/>
+   <mapper resource="es/aalvarez/modelica/dao/ArticuloInformeJuridicoMapper.xml"/>
+   <mapper resource="es/aalvarez/modelica/dao/TramiteExpedienteMapper.xml"/>
+   <mapper resource="es/aalvarez/modelica/dao/PuestoMapper.xml"/>
+   <mapper resource="es/aalvarez/modelica/dao/TramiteActivoXExpedienteMapper.xml"/>
+   <mapper resource="es/aalvarez/modelica/dao/ExpedienteRelacionadoMapper.xml"/>
+<!--    <mapper resource="es/aalvarez/aocayto/dao/AocAsuntoMapper.xml"/> -->
+   </mappers>
+</configuration>

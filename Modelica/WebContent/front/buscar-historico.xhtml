@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:sec="http://www.springframework.org/security/tags">
+  <h:head>
+  </h:head>
+  <body>
+<ui:composition template="/WEB-INF/template/Layout.xhtml">
+<ui:define name="content">
+<h:outputStylesheet library="css" name="style-caja.css" />
+<h:outputScript library="js" name="calendar_es.js"/>
+<h:form id="expedientesHistoricoListForm">
+
+ <p:growl id="growl" sticky="false" showDetail="true"/>
+    <p:dataTable id="listaHistoricoExpedientes" var="expediente" value="#{viewHistoricoLicenciasMB.expedientes}" widgetVar="expedientesTable"
+                 emptyMessage="No encontrados expedientes con los criterios especificados" filteredValue="#{viewHistoricoLicenciasMB.filteredExpedientes}" 
+                 	rows="10"
+                 	paginator="true"
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="5,10,15"
+                    sortBy="#{expediente.id}" sortOrder="descending"
+                    selectionMode="single" selection="#{viewHistoricoLicenciasMB.selected}" rowKey="#{expediente.id}">
+ 
+        <p:ajax event="rowSelect" listener="#{viewHistoricoLicenciasMB.onRowSelect}" update=":expedientesHistoricoListForm:growl" />
+        <p:ajax event="rowUnselect" listener="#{viewHistoricoLicenciasMB.onRowUnselect}" update=":expedientesHistoricoListForm:growl" /> 
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Buscar en todos los campos:" />
+                <p:inputText id="globalFilter" onkeyup="PF('expedientesTable').filter()" style="width:250px" placeholder="Buscar ..."/>
+            </p:outputPanel>
+        </f:facet>
+       
+        <p:column filterBy="#{expediente.numEntrada}" headerText="Entrada" footerText="contains" filterMatchMode="contains" style="text-align: left; width:80px;" >
+            <h:outputText value="#{expediente.numEntrada}" />
+        </p:column>
+        
+ 		<p:column filterBy="#{expediente.expediente}" headerText="Expte" footerText="exact" filterMatchMode="exact" style="text-align: left; width:80px;" >
+    	           <h:outputText value="#{expediente.expediente}" />
+        </p:column>
+        
+        <p:column filterBy="#{expediente.anyo}" headerText="Año" footerText="startsWith" filterMatchMode="startsWith" style="text-align: left; width:80px;" >
+            <h:outputText value="#{expediente.anyo}" />
+        </p:column>
+        
+ 		       
+        <p:column filterBy="#{expediente.nifInteresado}" headerText="NIF/CIF/NIE" footerText="in" filterMatchMode="contains" style="text-align: left; width:110px;">
+    	           <h:outputText value="#{expediente.nifInteresado}" />
+        </p:column>
+        
+ 		<p:column filterBy="#{expediente.interesado}" headerText="Interesado" footerText="in" filterMatchMode="contains" >
+    	           <h:outputText value="#{expediente.interesado}" />
+        </p:column>
+        <p:column filterBy="#{expediente.estadoExpediente}" headerText="Estado Expediente" footerText="in" filterMatchMode="contains" style="text-align: CENTER; width:160px;">
+    	           <h:outputText value="#{expediente.estadoExpediente}" />
+        </p:column>
+        
+        <p:column filterBy="#{expediente.tipoExpediente}" headerText="Tipo Expediente" footerText="exact" filterMatchMode="exact" style="text-align: left; width:160px;">
+            <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('expedientesTable').filter()" >
+                    <f:selectItem itemLabel="Selecccione" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{viewHistoricoLicenciasMB.tiposExpediente}" />
+                </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{expediente.tipoExpediente}" />
+        </p:column>
+        <p:column style="width:32px;text-align: center">
+                  <p:commandButton id="infoButton" icon="ui-icon-info" title="Info" 
+                   update=":expedientesHistoricoListForm" actionListener="#{viewHistoricoLicenciasMB.openInfoExpediente(expediente)}">
+                    <p:ajax event="dialogReturn" listener="#{ticketNewMB.onClosePDF}" update="@([id$=growl]),@([id$=listaHistoricoExpedientes])" />
+                  </p:commandButton>
+                 
+          
+                  
+        </p:column> 
+         <p:column style="width:32px;text-align: center">
+                  <p:commandButton id="indiceButton" icon="ui-icon-bookmark" title="Índice" 
+                    actionListener="#{viewHistoricoLicenciasMB.openIndiceExpediente(expediente)}">
+                    <p:ajax event="dialogReturn" listener="#{ticketNewMB.onClosePDF}" update="@([id$=growl]),@([id$=listaHistoricoExpedientes])" />
+                  </p:commandButton>
+                 
+                            
+        </p:column> 
+       
+       
+      	<p:column style="width:32px;text-align: center" rendered="#{sec:areAllGranted('ADMIN')}">
+                  <p:commandButton id="editarButton" icon="ui-icon-pencil" title="Editar" 
+                   actionListener="#{viewHistoricoLicenciasMB.openEditExpediente(expediente)}">
+                    <p:ajax event="dialogReturn" listener="#{viewHistoricoLicenciasMB.onCloseEditExpediente}" update="@([id$=growl]),@([id$=listaHistoricoExpedientes])" />
+                  </p:commandButton>
+                        
+        </p:column> 
+      	<p:column style="width:32px;text-align: center" rendered="#{sec:areAllGranted('SUPERADMIN')}">
+      	<p:commandButton icon="ui-icon-trash" actionListener="#{viewHistoricoLicenciasMB.borrarExpediente(expediente)}" update="@([id$=growl]),@([id$=listaHistoricoExpedientes])">
+                <p:confirm header="Confirmación" message="Confirmar la operación" icon="ui-icon-alert" />
+                    </p:commandButton>
+                    
+      	</p:column>
+      	<p:column style="width:32px;text-align: center" rendered="#{sec:areAnyGranted('GESTOR,ADMIN')}">
+        <p:commandButton icon="ui-icon-arrowrefresh-1-w" actionListener="#{viewHistoricoLicenciasMB.desarchivarExpediente(expediente)}" update="@([id$=growl]),@([id$=listaHistoricoExpedientes])">
+                <p:confirm header="Confirmación" message="Confirmar la operación" icon="ui-icon-alert" />
+                    </p:commandButton>
+                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+              </p:confirmDialog>
+        </p:column>
+       
+         
+    </p:dataTable>
+    <h:outputText value="-->Rendered only if user has all of the listed roles: nuqneH admin!" rendered="#{sec:areAllGranted('ROLE_USER, ROLE_ADMIN')}"/>
+         <!-- Rendered only if user has any of the listed roles -->
+     <h:outputText value="-->Rendered only if user has any of the listed roles: nuqneH user!" rendered="#{sec:areAnyGranted('USER, ADMIN, ROLE_USER')}"/>
+   
+</h:form>
+
+
+  
+
+</ui:define>
+</ui:composition>
+
+</body>
+</html>

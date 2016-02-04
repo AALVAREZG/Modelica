@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+.ui-fieldset{
+	background: none repeat scroll 0 0 #dbe1e4;
+	padding: 10px 10px 10px 40px;
+	width:450px;
+}
+.ui-fieldset .ui-fieldset-legend{
+	background: none repeat scroll 0 0 #84a8bb;
+	font-size:25px;
+}
+.ui-panelgrid{
+	margin:40px;
+	height:380px;
+	font-size:40px;
+	width:350px;
+	
+}
+.ui-inputfield[disabled], .ui-inputfield[disabled].ui-state-focus {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    text-align: right;
+    opacity: 1;
+	filter: Alpha(Opacity=100);
+}
+.ui-inputfield{
+	font-size:20px;
+	background-color: #dcddc9;
+	text-align: right;
+	
+}

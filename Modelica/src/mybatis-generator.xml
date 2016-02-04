@@ -1,0 +1,75 @@
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+ <!-- Ubicación del JAR JDBC del gestor de Base de datos a usar, en este caso MySQL  -->
+  <classPathEntry location="/home/antonioalvarez/desarrollo/git/newgit/Modelica/WebContent/WEB-INF/lib/mysql-connector-java-5.1.31.jar" />
+
+  <!--  Generaremos para MyBatis versión 3 -->
+  <context id="Test" targetRuntime="MyBatis3">
+    
+    <!-- N/o Si generamos los comentarios -->
+    <commentGenerator>
+      <property name="suppressAllComments" value="false"/>
+    </commentGenerator>
+    
+      <!--  Parámetros de conexión a la bd -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://localhost:3306/modelica"
+        userId="root"
+        password="root">
+    </jdbcConnection>
+
+     
+    <javaModelGenerator targetPackage="es.aalvarez.modelica.model" targetProject="Modelica">
+      <property name="enableSubPackages" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="es.aalvarez.modelica.dao"  targetProject="Modelica">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+      
+       
+ <!-- También podríamos indicar el tipo ANNOTATEDMAPPER -->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="es.aalvarez.modelica.service"  targetProject="Modelica">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+ 
+    <table schema="modelica" tableName="modlic_expediente"  domainObjectName="Expediente" >
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" />
+    </table>
+   
+    <table schema="modelica" tableName="modlic_articulo_ij"  domainObjectName="ArticuloInformeJuridico" >
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    <table schema="modelica" tableName="modlic_tramites"  domainObjectName="TramiteExpediente" >
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="idtramite" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" />
+    </table>
+    <table schema="modelica" tableName="modlic_puestos"  domainObjectName="Puesto" >
+      <property name="useActualColumnNames" value="false"/>
+     </table>
+      <table schema="modelica" tableName="modlic_traxexpedienteview"  domainObjectName="TramiteActivoXExpediente" >
+      <property name="useActualColumnNames" value="false"/>
+     </table>
+       <table schema="modelica" tableName="modlic_exprelacionados"  domainObjectName="ExpedienteRelacionado" >
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="idrelacion" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" />
+     </table>
+<!--    
+
+ <table schema="modelica" tableName="modlic_obramayor"  domainObjectName="ObraMayor" >
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" />
+    </table>
+
+
+
+ <table schema="aoc_ayto" tableName="aoc_asunto"  domainObjectName="AocAsunto" > -->
+<!--       <property name="useActualColumnNames" value="false"/> -->
+<!--       <generatedKey column="asunto_id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" />  -->
+<!--     </table> -->
+   </context>
+</generatorConfiguration>
