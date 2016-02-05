@@ -379,7 +379,7 @@ public class DashboardMB implements Serializable {
 		            tmpPuestoListInteger=new ArrayList<Integer>();
 		            for (int j=0;j<tmpPuestoList.size();j++){
 		            	tmpPuestoListInteger.add(tmpPuestoList.get(j).getId());
-		            	logger.debug(tmpPuestoList.get(j).getId());
+		            	//logger.debug(tmpPuestoList.get(j).getId());
 		            }
 		            this.listaXpuesto.put(codPuesto, tmpPuestoListInteger);
 	              }

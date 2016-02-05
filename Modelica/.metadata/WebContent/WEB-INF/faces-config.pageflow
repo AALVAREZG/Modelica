@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14547037754550" configfile="/Modelica/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="946" id="pf14547038023571" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14547038023572 pf14547038023573 pf14547038023574 pf14547038023575 pf14547038023576 pf14547038023577 pf14547038023578" path="/*"/>
+  <nodes xsi:type="pageflow:PFPage" name="front/f-obramayor.xhtml" x="338" y="178" id="pf14547038023579" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14547038023572" path="/front/f-obramayor.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="front/f-obramenor.xhtml" x="338" y="562" id="pf145470380235710" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14547038023573" path="/front/f-obramenor.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="front/f-ocupacion.xhtml" x="338" y="946" id="pf145470380235811" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" inlinks="pf14547038023574" path="/front/f-ocupacion.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="front/f-planeamiento.xhtml" x="338" y="1330" id="pf145470380235812" referenceLink="//@navigationRule.0/@navigationCase.6/@toViewId|" inlinks="pf14547038023575 pf14547038023576 pf14547038023577" path="/front/f-planeamiento.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="front/f-segregacion.xhtml" id="pf145470380235813" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" inlinks="pf14547038023578" path="/front/f-segregacion.xhtml"/>
+  <links id="pf14547038023572" target="pf14547038023579" source="pf14547038023571" outcome="OBRAMAYOR" fromaction="#{asistenteLicenciaMB.nuevo}"/>
+  <links id="pf14547038023573" target="pf145470380235710" source="pf14547038023571" outcome="OBRAmenor" fromaction="#{asistenteLicenciaMB.nuevo}"/>
+  <links id="pf14547038023574" target="pf145470380235811" source="pf14547038023571" outcome="OCUPACION" fromaction="#{asistenteLicenciaMB.nuevo}"/>
+  <links id="pf14547038023575" target="pf145470380235812" source="pf14547038023571" outcome="PLANEAMIENTO" fromaction="#{asistenteLicenciaMB.nuevo}"/>
+  <links id="pf14547038023576" target="pf145470380235812" source="pf14547038023571" outcome="CERTIFICADO" fromaction="#{asistenteLicenciaMB.nuevo}"/>
+  <links id="pf14547038023577" target="pf145470380235812" source="pf14547038023571" outcome="OTROS" fromaction="#{asistenteLicenciaMB.nuevo}"/>
+  <links id="pf14547038023578" target="pf145470380235813" source="pf14547038023571" outcome="SEGREGACION" fromaction="#{asistenteLicenciaMB.nuevo}"/>
+</pageflow:Pageflow>

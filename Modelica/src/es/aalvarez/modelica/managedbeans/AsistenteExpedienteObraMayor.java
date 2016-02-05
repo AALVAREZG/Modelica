@@ -31,6 +31,9 @@ import com.aeat.valida.Validador;
 
 import es.aalvarez.modelica.poi.GeneraProvidenciaObraMayor;
 import es.aalvarez.modelica.poi.GeneraProvidenciaObraMenor;
+import es.aalvarez.modelica.poi.GeneraProvidenciaOcupacion;
+import es.aalvarez.modelica.poi.GeneraProvidenciaOtros;
+import es.aalvarez.modelica.poi.GeneraProvidenciaSegregacion;
 import es.aalvarez.modelica.service.ArticuloInformeJuridicoMapper;
 import es.aalvarez.modelica.service.ExpedienteMapper;
 import es.aalvarez.modelica.service.ExpedienteRelacionadoMapper;
@@ -414,32 +417,32 @@ public class AsistenteExpedienteObraMayor implements Serializable {
         		break;
         	}
         	case "OCUPACION": {
-        		GeneraProvidenciaObraMenor docx = new GeneraProvidenciaObraMenor();
+        		GeneraProvidenciaOcupacion docx = new GeneraProvidenciaOcupacion();
         		rutaDocumento = docx.replaceTextFound(realPath, this.licenciaOM);
         		break;
         	}
         	case "SEGREGACION": {
-        		GeneraProvidenciaObraMenor docx = new GeneraProvidenciaObraMenor();
+        		GeneraProvidenciaSegregacion docx = new GeneraProvidenciaSegregacion();
         		rutaDocumento = docx.replaceTextFound(realPath, this.licenciaOM);
         		break;
         	}
         	case "PLANEAMIENTO": {
-        		GeneraProvidenciaObraMenor docx = new GeneraProvidenciaObraMenor();
+        		GeneraProvidenciaOtros docx = new GeneraProvidenciaOtros();
         		rutaDocumento = docx.replaceTextFound(realPath, this.licenciaOM);
         		break;
         	}
         	case "CERTIFICADO": {
-        		GeneraProvidenciaObraMenor docx = new GeneraProvidenciaObraMenor();
+        		GeneraProvidenciaOtros docx = new GeneraProvidenciaOtros();
         		rutaDocumento = docx.replaceTextFound(realPath, this.licenciaOM);
         		break;
         	}
         	case "OTROS": {
-        		GeneraProvidenciaObraMenor docx = new GeneraProvidenciaObraMenor();
+        		GeneraProvidenciaOtros docx = new GeneraProvidenciaOtros();
         		rutaDocumento = docx.replaceTextFound(realPath, this.licenciaOM);
         		break;
         	}
         	default:
-        		GeneraProvidenciaObraMenor docx = new GeneraProvidenciaObraMenor();
+        		GeneraProvidenciaOtros docx = new GeneraProvidenciaOtros();
         		rutaDocumento = docx.replaceTextFound(realPath, this.licenciaOM);
         		break;
         		
