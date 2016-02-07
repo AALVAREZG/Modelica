@@ -29,7 +29,7 @@
                     </p:inputText>
  					
  					<h:outputLabel value="Expediente: *" for="NumeroExpediente"/>
-                    <p:inputText id="NumeroExpediente" value="#{asistenteExpedienteObraMayor.licenciaOM.expediente}" required="true" label="Num. Expte.">
+                    <p:inputText id="NumeroExpediente" value="#{asistenteExpedienteObraMayor.licenciaOM.expediente}" required="false" label="Num. Expte.">
                      <f:validateDoubleRange minimum="1" maximum="1000" />
                     </p:inputText>
                     <h:outputLabel  for="AñoExpediente" value="Año: *"/>

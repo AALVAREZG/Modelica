@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -29,10 +30,19 @@ public class GeneraProvidenciaOtros {
 	
 	public String replaceTextFound(String path, Expediente licenciaOM) throws IOException {
 		//String numExpediente = String.format("%04d",licenciaOM.getAnyo())+String.format("%03d",licenciaOM.getExpediente());
-		String numExpediente2 =String.format("%04d",licenciaOM.getAnyo())+"RE"+String.format("%04d",licenciaOM.getNumEntrada());
+		String numExpediente2 = null;
+		if(licenciaOM.getNumEntrada()!=null){
+    		numExpediente2=licenciaOM.getAnyo().toString()+"RE"+String.format("%04d",licenciaOM.getNumEntrada());
+    	}else{
+    		SimpleDateFormat formatter = new SimpleDateFormat("Mdy");
+    		String date = formatter.format(licenciaOM.getFechaEntrada());
+    		numExpediente2=licenciaOM.getAnyo().toString()+"RE"+date;
+    	}
+		
+				
 		System.out.println(numExpediente2);
 		String realContextPath = path; 
-		String inputfilepath = realContextPath+"/models/OTROS/"+ "/PROVIDENCIA-oMayor.docx";
+		String inputfilepath = realContextPath+"/models/OTROS/"+ "/PROVIDENCIA-otros.docx";
 		String relativeOutputfilepath = "/docs/OTROS/"+numExpediente2+"_Providencia.docx";
 		String outputfilepath = realContextPath+relativeOutputfilepath;
 		
@@ -76,51 +86,54 @@ public class GeneraProvidenciaOtros {
       	  
       	}
         logger.debug(textoInteresado);
-		for (XWPFParagraph p : doc.getParagraphs()) {
-		    List<XWPFRun> runs = p.getRuns();
-		    if (runs != null) {
-		        for (XWPFRun r : runs) {
-		        	String text = r.getText(0);
-		        	System.out.println("Texto del run ---> " +text);
-		        	if (text != null){
-		        		if (text.contains("$FECHAENTRADA")) {
-			        	    text = text.replace("$FECHAENTRADA", tFecha1);
-			                r.setText(text, 0);
-			        	}if (text.contains("$NUMENTRADA")) {
-			        	    text = text.replace("$NUMENTRADA", licenciaOM.getNumEntrada().toString());
-			                r.setText(text, 0);
-			        	}if (text.contains("$NUMEXPTE")) {
-			        	    text = text.replace("$NUMEXPTE", String.valueOf(licenciaOM.getExpediente()));
-			                r.setText(text, 0);
-			        	}if (text.contains("$ANYOEXPTE")) {
-			        	    text = text.replace("$ANYOEXPTE", String.valueOf(licenciaOM.getAnyo()));
-			                r.setText(text, 0);
-			        	}if (text.contains("$INTERESADO")) {
-			        		text = text.replace("$INTERESADO", textoInteresado);
-			        		r.setText(text, 0);
-		        		}if(text.contains("$ACTUACION")) {
-			                text = text.replace("$ACTUACION", textoActuacion);
-			                r.setText(text, 0);
-		        		
-		        		}if(text.contains("$FECHPROVIDENCIA")) {
-			                text = text.replace("$FECHPROVIDENCIA", tFecha2);
-			                r.setText(text, 0);
-		        		}if(text.contains("$CARGO")) {
-			                text = text.replace("$CARGO", licenciaOM.getProvidenciaFirmanteCargo());
-			                r.setText(text, 0);
-		        		}if(text.contains("$DELEGACION")) {
-			                text = text.replace("$DELEGACION",licenciaOM.getProvidenciaFirmanteDelegacion());
-			                r.setText(text, 0);
-		        		}if(text.contains("$NOMBRCARGO")) {
-			                text = text.replace("$NOMBRCARGO", licenciaOM.getProvidenciaFirmante());
-			                r.setText(text, 0);
-		        		}
+		try{
+		        for (XWPFParagraph p : doc.getParagraphs()) {
+				    List<XWPFRun> runs = p.getRuns();
+				    if (runs != null) {
+				        for (XWPFRun r : runs) {
+				        	String text = r.getText(0);
+				        	System.out.println("Texto del run ---> " +text);
+				        	if (text != null){
+				        		if (text.contains("$FECHAENTRADA")) {
+					        	    text = text.replace("$FECHAENTRADA", tFecha1);
+					                r.setText(text, 0);
+					        	}if (text.contains("$NUMENTRADA")) {
+					        	    text = text.replace("$NUMENTRADA", licenciaOM.getNumEntrada().toString());
+					                r.setText(text, 0);
+					        	}if (text.contains("$NUMEXPTE")) {
+					        	    text = text.replace("$NUMEXPTE", String.valueOf(licenciaOM.getExpediente()));
+					                r.setText(text, 0);
+					        	}if (text.contains("$ANYOEXPTE")) {
+					        	    text = text.replace("$ANYOEXPTE", String.valueOf(licenciaOM.getAnyo()));
+					                r.setText(text, 0);
+					        	}if (text.contains("$INTERESADO")) {
+					        		text = text.replace("$INTERESADO", textoInteresado);
+					        		r.setText(text, 0);
+				        		}if(text.contains("$ACTUACION")) {
+					                text = text.replace("$ACTUACION", textoActuacion);
+					                r.setText(text, 0);
+				        		
+				        		}if(text.contains("$FECHPROVIDENCIA")) {
+					                text = text.replace("$FECHPROVIDENCIA", tFecha2);
+					                r.setText(text, 0);
+				        		}if(text.contains("$CARGO")) {
+					                text = text.replace("$CARGO", licenciaOM.getProvidenciaFirmanteCargo());
+					                r.setText(text, 0);
+				        		}if(text.contains("$DELEGACION")) {
+					                text = text.replace("$DELEGACION",licenciaOM.getProvidenciaFirmanteDelegacion());
+					                r.setText(text, 0);
+				        		}if(text.contains("$NOMBRCARGO")) {
+					                text = text.replace("$NOMBRCARGO", licenciaOM.getProvidenciaFirmante());
+					                r.setText(text, 0);
+				        		}
+				        	}
+				        }
+				    }
+				}//END FOR
+		}catch(NullPointerException e)
+		        {
+		            logger.debug("NullPointerException caught, generando Providencia Planeamiento (esta previsto)");
 		        }
-		    }
-		}
-		
-		
-	}
 		
 		
 		for (XWPFTable tbl : doc.getTables()) {

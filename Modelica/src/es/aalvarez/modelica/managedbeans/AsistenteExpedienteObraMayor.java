@@ -3,6 +3,7 @@ package es.aalvarez.modelica.managedbeans;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -309,22 +310,7 @@ public class AsistenteExpedienteObraMayor implements Serializable {
     }
 	
 		
-	
-
-
-	
-	public String cambiarEstado() {
-
-		return "success";
-	
-	}
-	public void onArticuloDrop(DragDropEvent ddEvent) {
-		 logger.debug("On articulo drop ddevent.getData "+ ddEvent.getData());
-		 ArticuloInformeJuridico art = ((ArticuloInformeJuridico) ddEvent.getData());
-		 
-		 articulosInsertados.add(art);
-		 articulosDisponibles.remove(art);
-	    }
+		
 	
 	public void actualizarEstadoLicencia(String nuevoEstado, String documento, String rutaDocumento){
 		
@@ -400,7 +386,7 @@ public class AsistenteExpedienteObraMayor implements Serializable {
 		ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 		String realPath = ctx.getRealPath("/");
 		if (this.licenciaOM.getRutaProvidencia()==null || this.editar==true){
-			logger.debug("Generando providencia ...  "+this.licenciaOM.getExpediente()+"-"+this.licenciaOM.getAnyo());
+			logger.debug("Generando providencia.. RE:  "+this.licenciaOM.getNumEntrada()+"-"+this.licenciaOM.getAnyo());
 			
 		
 		switch (licenciaOM.getTipoExpediente()) {
@@ -454,7 +440,15 @@ public class AsistenteExpedienteObraMayor implements Serializable {
     	logger.debug("Método genera Providencia en formulario 1: ObjetoAsistenteDocumentosObraMayor "+this.toString());
     	InputStream stream =((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream(rutaDocumento);
     	logger.debug("Método genera Providencia, inputstream "+ stream);
-    	nombreDocumento=this.licenciaOM.getAnyo().toString()+this.licenciaOM.getExpediente().toString()+"_Providencia.docx";
+    	if (this.licenciaOM.getExpediente()!=null){
+    		nombreDocumento=this.licenciaOM.getAnyo().toString()+this.licenciaOM.getExpediente().toString()+"_Providencia.docx";
+    	}else if(this.licenciaOM.getNumEntrada()!=null){
+    		nombreDocumento=this.licenciaOM.getAnyo().toString()+"RE"+this.licenciaOM.getAnyo()+String.format("%04d",licenciaOM.getNumEntrada())+"_Providencia.docx";
+    	}else{
+    		SimpleDateFormat formatter = new SimpleDateFormat("Mdy");
+    		String date = formatter.format(this.licenciaOM.getFechaEntrada());
+    		nombreDocumento=this.licenciaOM.getAnyo().toString()+"RE"+date+"_Providencia.docx";
+    	}
         this.fileProvidencia = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document",nombreDocumento);
         logger.debug("Método genera Providencia, streamedContent file "+ this.fileProvidencia);
         this.disabledBtnProvidencia=false;
@@ -537,6 +531,8 @@ public class AsistenteExpedienteObraMayor implements Serializable {
 			} catch (Exception e) {
 		
 				logger.error("Error en funcion (guardar) AsistenteExpedienteObraMayor: "+ e.getLocalizedMessage());
+				FacesMessage msg = new FacesMessage("Error al guardar licencia ", "ID= "+ generatedID + " - " +licenciaOM.getInteresado());
+                FacesContext.getCurrentInstance().addMessage(null, msg);
 			       
         	}finally{
         		this.disabledBtnGuardar=true;

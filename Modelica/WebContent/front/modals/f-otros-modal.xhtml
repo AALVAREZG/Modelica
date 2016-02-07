@@ -73,17 +73,17 @@
                     <h:outputLabel value="Emplazamiento: *" />
                     <p:inputText id="emplazamiento" label="Emplazamiento" value="#{asistenteExpedienteObraMayor.licenciaOM.emplazamiento}"  style="width:300px" converter="toUpperCaseConverter" required="true"/>
                     <h:outputLabel value="Ref Catastral: *" />
-                    <p:inputText id="RefCatastral" label="Ref. Catastral" value="#{asistenteExpedienteObraMayor.licenciaOM.refCatastral}"  style="text-transform: uppercase" converter="toUpperCaseConverter" required="true"/>
+                    <p:inputText id="RefCatastral" label="Ref. Catastral" value="#{asistenteExpedienteObraMayor.licenciaOM.refCatastral}"  style="text-transform: uppercase" converter="toUpperCaseConverter" required="false"/>
                     <h:outputLabel value="Documento Técnico: *" />
-                    <p:inputText id="Documento_Técnico" label="Doc. Técnico" value="#{asistenteExpedienteObraMayor.licenciaOM.docTecnico}"  style="width:380px" converter="toUpperCaseConverter" required="true"/>
+                    <p:inputText id="Documento_Técnico" label="Doc. Técnico" value="#{asistenteExpedienteObraMayor.licenciaOM.docTecnico}"  style="width:380px" converter="toUpperCaseConverter" required="false"/>
                     <h:outputLabel value="Redactor Proyecto y Núm. Col.: *" />
-                    <p:inputText id="Redactor_Proyecto" label="Redactor Proyecto" value="#{asistenteExpedienteObraMayor.licenciaOM.redactor}"  style="width:380px" converter="toUpperCaseConverter" required="true"/>
+                    <p:inputText id="Redactor_Proyecto" label="Redactor Proyecto" value="#{asistenteExpedienteObraMayor.licenciaOM.redactor}"  style="width:380px" converter="toUpperCaseConverter" required="false"/>
                     <h:outputLabel value="Núm Visado: *" />
                     <p:inputText id="Num_Visado" label="Num. Visado" value="#{asistenteExpedienteObraMayor.licenciaOM.numVisado}"  style="width:380px" converter="toUpperCaseConverter"  required="false"/>
        		 		<h:outputLabel value="Fecha Visado: *" />
-                    <p:inputText id="Fecha_Visado" label="Fecha Visado" value="#{asistenteExpedienteObraMayor.licenciaOM.fechaVisado}"  required="true"/>
+                    <p:inputText id="Fecha_Visado" label="Fecha Visado" value="#{asistenteExpedienteObraMayor.licenciaOM.fechaVisado}"  required="false"/>
                     <h:outputLabel value="Licencia en la que se basa: *" />
-                    <p:inputText id="licencia_base" label="Licencia Base" value="#{asistenteExpedienteObraMayor.licenciaOM.licenciaBase}"  style="width:380px" converter="toUpperCaseConverter" required="true"/>
+                    <p:inputText id="licencia_base" label="Licencia Base" value="#{asistenteExpedienteObraMayor.licenciaOM.licenciaBase}"  style="width:380px" converter="toUpperCaseConverter" required="false"/>
                     
             </h:panelGrid>
          </p:panel>

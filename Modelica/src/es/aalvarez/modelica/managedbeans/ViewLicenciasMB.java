@@ -1180,10 +1180,9 @@ public class ViewLicenciasMB implements Serializable {
 	    
 	     
 	    public void onRowSelect(SelectEvent event) {
-	    	
-	    	System.out.println("Seleccionado registro " + ((Expediente) event.getObject()).getExpediente().toString());
-	    	System.out.println("Valor de Selected " + this.selected.getId());
-	        FacesMessage msg = new FacesMessage("Estado del Expediente", ((Expediente) event.getObject()).getEstadoExpediente());
+	    	Expediente exp = (Expediente) event.getObject();
+	    	String contenido =   exp.getActuacion() + " - "+ exp.getEmplazamiento();
+	        FacesMessage msg = new FacesMessage("Expediente: "+exp.getTipoExpediente(),contenido );
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	    }
 	 
