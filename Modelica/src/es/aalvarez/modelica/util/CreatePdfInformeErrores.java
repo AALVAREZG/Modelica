@@ -63,6 +63,7 @@ public class CreatePdfInformeErrores {
 	private List<Expediente> totalExpedientesList = new ArrayList<Expediente>();
 	private List<TramiteActivoXExpediente> expedientesConTramiteActivo = new ArrayList<TramiteActivoXExpediente>();
 	private List<Expediente> expedientesSinTramiteActivo = new ArrayList<Expediente>();
+	private List<Expediente> expedientesConErrores = new ArrayList<Expediente>();
 	
 	 public String generaPDF(){
 	    	
@@ -114,21 +115,19 @@ public class CreatePdfInformeErrores {
 				    
 				    //Añadimos expedientes relacionados
 				    document.add(new Paragraph(" "));
-				    document.add(new Paragraph(" "));
-				    document.add(new Paragraph(" "));
+				    
 				    
 				    /*PdfPTable auxDataHeader = new PdfPTable(new float[] {5});
 		            auxDataHeader.setWidthPercentage(85);
 		            auxDataHeader.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
 		            Font font5 = new Font(FontFamily.UNDEFINED, 9, Font.BOLD, BaseColor.BLACK);
 				    
+				    */
+				    //añadimos COMPROBACIÓN EXPEDIENTES
 				    
-				    //añadimos leyenda
-				    document.add(new Paragraph(" "));
-				    document.add(new Paragraph(" "));
 				    document.add(new Paragraph(" "));
 				    addLeyenda(document);
-				    
+				    /*
 				    //añadimos el esquema de tramitación
 				    //addEsquemaTramitacion(document,listaTramites,writer);
 				    //document.add(new Paragraph(" "));
@@ -247,80 +246,78 @@ public class CreatePdfInformeErrores {
 	    public float addLeyenda(Document document)
 	            throws DocumentException {
 	           
-	            
-	            
+	            	            
 	    	 	Font font5 = new Font(FontFamily.UNDEFINED, 9, Font.BOLD, BaseColor.BLACK);
 	            PdfPTable auxDataHeader = new PdfPTable(new float[] {5});
 	            auxDataHeader.setWidthPercentage(85);
 	            auxDataHeader.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-	            Phrase p  = new Phrase("TABLA DE ESTADOS" , font5);
+	            Phrase p  = new Phrase("ANALISIS DE EXPEDIENTES" , font5);
 	            auxDataHeader.addCell(p);
 	            document.add(auxDataHeader);
 	            Font font3 = new Font(FontFamily.UNDEFINED, 7, Font.BOLD, BaseColor.BLACK);
 	            Font font4 = new Font(FontFamily.UNDEFINED, 7, Font.NORMAL, BaseColor.BLACK);
-	            PdfPTable auxData = new PdfPTable(new float[] { 2, 4,2,4});
-	            auxData.setWidthPercentage(95);
+	            Font font50 = new Font(FontFamily.UNDEFINED, 7, Font.BOLD, BaseColor.RED);
+	            Font font51 = new Font(FontFamily.UNDEFINED, 7, Font.BOLD, BaseColor.GREEN);
+	            PdfPTable auxData = new PdfPTable(new float[] { 3, 4,3,4,3});
+	            auxData.setWidthPercentage(100);
 	            auxData.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+	            p  = new Phrase("ID (EXPED.)" , font3);
+	            auxData.addCell(p);
+	            p = new Phrase("ESTADO (EXPE:)", font3);
+	            auxData.addCell(p);
+	            p = new Phrase("ID (TRAMITE)" , font3);
+	            auxData.addCell(p);
+	            p = new Phrase("ESTADO (TRAM.)", font3);
+	            auxData.addCell(p);
+	            p = new Phrase("RESULTADO", font3);
+	            auxData.addCell(p);
+	            for (Expediente exp : this.totalExpedientesList){
+	                String id = String.valueOf(exp.getId());
+	                String estado = String.valueOf(exp.getEstadoExpediente());
+					p = new Phrase(id, font4);
+		            auxData.addCell(p);
+		            p = new Phrase(estado, font3);
+		            auxData.addCell(p);
+		            for (TramiteActivoXExpediente tr : this.expedientesConTramiteActivo){
+		            	if (String.valueOf(tr.getCodModlicExpediente()).equals(id)){
+		            		String id2 = String.valueOf(tr.getCodModlicExpediente());
+			                String estado2 = tr.getEstadoTramite();
+							p = new Phrase(id2, font4);
+				            auxData.addCell(p);
+				            p = new Phrase(estado2, font3);
+				            auxData.addCell(p);
+				            if (estado.equals(estado2)){
+				            	p = new Phrase("OK", font51);
+					            auxData.addCell(p);
+				            }else{
+				            	p = new Phrase("ERROR", font50);
+					            auxData.addCell(p);
+					            this.expedientesConErrores.add(exp);
+				            }
+		            	}
+		            }
+	            	
+	            }
 	            
-	            p  = new Phrase("I-SUBSANACION" , font3);
+	            
 	            auxData.addCell(p);
-	            p = new Phrase("PENDIENTE DE SUBSANACIÓN INICIAL", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("T-PROVIDENCIA " , font3);
-	            auxData.addCell(p);
-	            p = new Phrase("PENDIENTE DE HACER PROVIDENCIA", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("T-INFTECNICO ", font3);
-	            auxData.addCell(p);
-	            p = new Phrase("PENDIENTE DE INFORME TÉCNICO", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("T-INFORMEJURIDICO ", font3);
-	            auxData.addCell(p);
-	            p = new Phrase("PENDIENTE DE INFORME JURÍDICO", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("T-SUBSANACION ", font3);
-	            auxData.addCell(p);
-	            p = new Phrase("PENDIENTE DE SUBSANACIÓN DESPUÉS DE INFORMES TÉCNICO Y JURÍDICO", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("F-RESOLUCION ", font3);
-	            auxData.addCell(p);
-	            p = new Phrase("PENDIENTE DE RESOLUCIÓN", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("F-NOTIFICACION ", font3);
-	            auxData.addCell(p);
-	            p = new Phrase("PENDIENTE DE NOTIFICACIÓN", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("F-NOTIFICACION ", font3);
-	            auxData.addCell(p);
-	            p = new Phrase("PENDIENTE DE NOTIFICACIÓN", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("F-ARCHIVO ", font3);
-	            auxData.addCell(p);
-	            p = new Phrase("PENDIENTE DE ARCHIVO", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("FINALIZADO ", font3);
-	            auxData.addCell(p);
-	            p = new Phrase("EXPEDIENTE FINALIZADO Y ARCHIVADO", font4);
-	            auxData.addCell(p);
-	            p = new Phrase("T-OTROS ", font3);
-	            auxData.addCell(p);
-	            p = new Phrase("Otros Estados, p.e. pendiente de informe sectorial", font4);
-	            auxData.addCell(p);
+	            PdfPTable moreData = new PdfPTable(new float[] {5});
+	            moreData.setWidthPercentage(100);
+	            moreData.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+	            p  = new Phrase("EXPEDIENTES CON ERRORES" +this.expedientesConErrores.size(), font5);
+	            moreData.addCell(p);
+	            for(Expediente e : this.expedientesConErrores){
+	            	String texto = "Expediente: "+e.getId()+" - "+e.getInteresado()+" - Tipo: "+e.getTipoExpediente()+" - Actuación: "+e.getActuacion();
+	            	p = new Phrase(texto, font3);
+	            	moreData.addCell(p);
+	            }
+	            
 	            
 	            document.add(auxData);
+	            document.add(moreData);
 	            	            
-	            return auxData.getTotalHeight()+auxData.getFooterHeight();
-	           /* sestadosExpediente = new String[10];
-	            sestadosExpediente[0] = "I-SUBSANACION"; //PENDIENTE DE SUBSANACIÓN INICIAL
-	            sestadosExpediente[1] = "T-PROVIDENCIA"; //PENDIENTE DE HACER PROVIDENCIA
-	            sestadosExpediente[2] = "T-INFTECNICO";  //PENDIENTE DE INFORME TÉCNICO
-	            sestadosExpediente[3] = "T-INFORMEJURIDICO"; //PENDIENTE DE INFORME JURÍDICO
-	            sestadosExpediente[4] = "T-SUBSANACION"; //PENDIENTE DE SUBSANACIÓN TRAS INFORMES 
-	            sestadosExpediente[5] = "F-RESOLUCION";  //PENDIENTE DE RESOLUCIÓN
-	            sestadosExpediente[6] = "F-NOTIFICACION"; //PENDIENTE DE NOTIFICACIÓN
-	            sestadosExpediente[7] = "F-ARCHIVO";     //PENDIENTE DE ARCHIVO
-	            sestadosExpediente[8] = "FINALIZADO";    //EXPEDIENTE FINALIZADO Y ARCHIVADO
-	            sestadosExpediente[9] = "seleccionar ..."; */
+	            return 0;
+	        
 	    }
 	    
 	    public float addEsquemaTramitacion(Document document,List<TramiteExpediente> tse, PdfWriter writer ){
