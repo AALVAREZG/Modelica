@@ -264,29 +264,44 @@ public class ViewHistoricoLicenciasMB implements Serializable {
 		            }catch(Exception e){
 		            	logger.error("Error actualizarEstadoLicencia desarchivar expediente",e);           
 		            }finally{
-		            	 FacesMessage msg1 = new FacesMessage("Expediente Desarchivado", target.getEstadoExpediente() + " Expte: " +(target.getExpediente()+" - "+target.getAnyo() +
-		            			 " Registro/s afectado/s: "+ resultado));
-		              FacesContext.getCurrentInstance().addMessage(null, msg1);
-		              TramiteExpediente tramiteProvidencia = new TramiteExpediente();
-			  			tramiteProvidencia.setCodModlicExpediente(target.getId());
-			  			tramiteProvidencia.setFechaTramite(new Date());
-			  			DateFormat df2 = DateFormat.getDateInstance(DateFormat.MEDIUM);
-			              String tFecha = df2.format(target.getProvidenciaFecha());
+		            	
+		            	FacesMessage msg1 = new FacesMessage("Expediente Desarchivado", target.getEstadoExpediente() + " Expte: " +(target.getExpediente()+" - "+target.getAnyo() +
+		            		 " Registro/s afectado/s: "+ resultado));
+		            	FacesContext.getCurrentInstance().addMessage(null, msg1);
+		            	
+		            	try {
+		            	     		
+		            	 
+		            	TramiteExpediente tramiteProvidencia = new TramiteExpediente();
+			  				tramiteProvidencia.setCodModlicExpediente(target.getId());
+			  				tramiteProvidencia.setFechaTramite(new Date());
+			  				DateFormat df2 = DateFormat.getDateInstance(DateFormat.MEDIUM);
+			  				String tFecha = df2.format(target.getProvidenciaFecha());
 			  			tramiteProvidencia.setDescripcionTramite("Expediente desarchivado ");
 			  			tramiteProvidencia.setTramiteAsignadoA("ADMINISTRATIVOS SECRETARÍA");
 			  			tramiteProvidencia.setEstadoTramite("F-ARCHIVO");
-			  			tramiteProvidencia.setTramiteActivo(false);
+			  			tramiteProvidencia.setTramiteActivo(true);
 			  			tramiteProvidencia.setIncluirEnIndice(true);
-			  			try {
-				              
-			  				insertarTramiteEnLicencia(tramiteProvidencia);
-			  			 }catch(Exception e){
-				            	logger.error("Error actualizarEstadoLicencia desarchivar expediente",e);           
-				         }finally{
+			  			//ACTUALIZAMOS EL TRAMITE ARCHIVO Y LO ESTABLECEMOS COMO "NO ACTIVO".
+			  			 TramiteExpedienteMapper service2 = dbSession.getMapper(TramiteExpedienteMapper.class);
+			  			 TramiteExpedienteExample tramiteExample = new TramiteExpedienteExample();
+			  			 tramiteExample.createCriteria().andCodModlicExpedienteEqualTo(target.getId()).andEstadoTramiteEqualTo("FINALIZADO");
+			  			 TramiteExpediente tramiteArchivo = new TramiteExpediente();
+			  			 tramiteArchivo = service2.selectByExample(tramiteExample).get(0);
+			  			 tramiteArchivo.setTramiteActivo(false);
+			  			 service2.updateByExample(tramiteArchivo, tramiteExample);
+			  			
 			  			 dbSession.commit(true);
+			  			        
+			  			 insertarTramiteEnLicencia(tramiteProvidencia);
 			  			 
-				         }
-		            }    
+		            	}catch(Exception e){
+				            	logger.error("Error actualizarEstadoLicencia desarchivar expediente",e);           
+				        }finally{
+				        	 FacesMessage msg2 = new FacesMessage("Actualizados trámites del expediente", "Estado Expediente F-ARCHIVO");
+			            	 FacesContext.getCurrentInstance().addMessage(null, msg1);
+				        }				         }
+		               
 			  }else{
 			  	logger.error("Desarchivar Expediente, sesion de base de datos nula ");
 			  }

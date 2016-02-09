@@ -453,7 +453,7 @@ public class AsistenteExpedienteObraMayor implements Serializable {
         logger.debug("Método genera Providencia, streamedContent file "+ this.fileProvidencia);
         this.disabledBtnProvidencia=false;
       
-        actualizarEstadoLicencia("T-INFTECNICO","PROVIDENCIA",rutaDocumento);
+        //actualizarEstadoLicencia("T-INFTECNICO","PROVIDENCIA",rutaDocumento);
 //    	this.setFaseExpediente(2);
 //        obtenerEstadoDeFase();
 		TramiteExpediente tramiteProvidencia = new TramiteExpediente();

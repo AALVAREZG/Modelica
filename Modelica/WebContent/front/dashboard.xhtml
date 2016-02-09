@@ -54,7 +54,14 @@
             </p:fieldset>
           
 
-	</p:panelGrid>			    
+	</p:panelGrid>
+	
+	<p:dock position="bottom">
+	    <p:menuitem value="Home" icon="/resources/img/dock/history.png" action="#{dashboardMB.generaInformeEstado}"/>
+	    <p:menuitem value="Music" icon="/resources/img/dock/home.png" url="#"/>
+	   
+	</p:dock>
+				    
 	</h:form>		     
 			  <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
         <p:dialog widgetVar="statusDialog" modal="false" draggable="false" closable="true" resizable="false" showHeader="false">
@@ -62,6 +69,7 @@
          </p:dialog>
 
 <ui:include src="lista-expedientes.xhtml"/>
+
 </ui:define>
 </ui:composition>
 

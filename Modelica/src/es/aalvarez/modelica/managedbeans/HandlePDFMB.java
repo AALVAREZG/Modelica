@@ -30,35 +30,31 @@ public class HandlePDFMB implements Serializable {
 	private static final long serialVersionUID = -6018464845390666159L;
 	final  Logger logger = LogManager.getLogger(AsistenteExpedienteObraMayor.class);
 	
-	String titulo;
+	String archivo;
+	
 	
 	@PostConstruct
 	private void init(){
 		logger.debug("Init HandlePDFMB ... ");
-		this.titulo="EXPEDIENTE";
+		this.archivo = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("file");
+		logger.debug("Archivo.."+this.archivo);
 	}
 	
-	public String getTitulo() {
-		return titulo;
+
+
+	
+
+
+
+	public String getArchivo() {
+		return archivo;
 	}
 
-
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setArchivo(String archivo) {
+		this.archivo = archivo;
 	}
 
-
-
-	public void closeImprimir(){
-    	
-    		
-    		System.out.println( "en funcion CloseImprimir)");
-    	
-			
-		
-    }
-
+	
 	
 
 }

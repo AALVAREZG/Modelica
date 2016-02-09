@@ -55,6 +55,8 @@ import es.aalvarez.modelica.service.ExpedienteRelacionadoMapper;
 import es.aalvarez.modelica.service.PuestoMapper;
 import es.aalvarez.modelica.service.TramiteActivoXExpedienteMapper;
 import es.aalvarez.modelica.service.TramiteExpedienteMapper;
+import es.aalvarez.modelica.util.CreatePdfIndiceExpediente;
+import es.aalvarez.modelica.util.CreatePdfInformeErrores;
 import es.aalvarez.modelica.util.CreatePdfResumenExpediente;
 import es.aalvarez.modelica.util.MyBatisUtil;
 import es.aalvarez.modelica.util.Nodo1;
@@ -571,24 +573,8 @@ public class DashboardMB implements Serializable {
 		openPDF("modals/imprimir-pdf-emodal");
 		
 	}
-		public void openPDF(String dialog) {
-	    	
-	    	try {
-				Map<String,Object> options = new HashMap<String, Object>();
-				options.put("modal", true);
-				options.put("draggable", false);
-				options.put("resizable", true);
-				options.put("closable", true);
-				options.put("contentWidth", 1280);
-				RequestContext.getCurrentInstance().openDialog(dialog,options,null);
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Abriendo Informe del expediente", " ... " );
-				FacesContext.getCurrentInstance().addMessage(null, message);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	    }
+		
+		
 		public List<TramiteExpediente> obtenerTramitesExpediente(Expediente expediente){
 		  	System.out.println("Obtener trámites del expediente ");
 			SqlSession dbSession =MyBatisUtil.getSqlSessionFactory().openSession();
@@ -826,7 +812,59 @@ public class DashboardMB implements Serializable {
 	 
 	        
 	    }
-	    
+	    public void generaInformeEstado(){
+			
+			CreatePdfInformeErrores informe = new CreatePdfInformeErrores();
+			String informeGenerado = null;
+			informeGenerado= informe.generaPDF();
+			logger.debug("Generado Informe de Estado Expedientes, en el archivo "+informeGenerado+" abriendo diálogo");
+			openPDFEspecifico("modals/imprimir-pdf03-emodal",informeGenerado);
+			
+		}
+	    public void openPDF(String dialog) {
+	    	
+	    	try {
+				Map<String,Object> options = new HashMap<String, Object>();
+				options.put("modal", true);
+				options.put("draggable", false);
+				options.put("resizable", true);
+				options.put("closable", true);
+				options.put("contentWidth", 1280);
+				
+				RequestContext.getCurrentInstance().openDialog(dialog,options,null);
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Abriendo Informe del expediente", " ... " );
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	    }
+		public void openPDFEspecifico(String dialog,String file) {
+	    	
+	    	try {
+				Map<String,Object> options = new HashMap<String, Object>();
+				options.put("modal", true);
+				options.put("draggable", false);
+				options.put("resizable", true);
+				options.put("closable", true);
+				options.put("contentWidth", 1280);
+				Map<String,List<String>> params = new HashMap<String,List<String>>();
+			        List<String> paramList = new ArrayList<String>();
+			        paramList.add(file);
+			        params.put("file", paramList);
+			       
+			    	
+			        
+				RequestContext.getCurrentInstance().openDialog(dialog,options,params);
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Abriendo Informe del expediente", " ... " );
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	    }
 		public void handleReorder(DashboardReorderEvent event) {
 	        FacesMessage message = new FacesMessage();
 	        message.setSeverity(FacesMessage.SEVERITY_INFO);

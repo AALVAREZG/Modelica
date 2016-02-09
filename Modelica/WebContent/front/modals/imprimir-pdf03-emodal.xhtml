@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+     
+    <h:head>
+        
+    </h:head>
+     <h:body>
+     <h:form>
+     
+     
+       <object type="application/pdf" data="#{request.contextPath}#{handlePDFMB.archivo}" height="800px" width="100%">
+            Tu navegador no puede mostrar PDF's, haz 
+          <a href="#{request.contextPath}#{handlePDFMB.archivo}">click</a> para descargar.
+        </object>
+       
+        </h:form>
+    </h:body>
+     
+</html>
