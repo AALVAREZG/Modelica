@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:sec="http://www.springframework.org/security/tags">
+  <h:head>
+  </h:head>
+  <body>
+<ui:composition template="/WEB-INF/template/Layout.xhtml">
+<ui:define name="content">
+<h:outputStylesheet library="css" name="style-dashboard.css" />
+<h:outputStylesheet library="css" href="jquery.postitall.css" />
+<h:outputScript library="js" name="calendar_es.js"/>
+<h:outputScript library="js" name="jquery.postitall.js"/>
+<h:outputScript library="js" name="jquery.min.js"/>
+
+
+
+
+    <h:form>
+    <ul class="nav navbar-nav pull-left">
+                <li class="nav-item"><a class="navbar-brand" href="index.html" id="idTitle">Post It All!</a></li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#home">Jquery plugin <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="extension.html">Chrome Extension</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="idAddNote"><i class="fa fa-sticky-note-o fa-fw"></i> Add a new note!</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="idDeleteAll2"><i class="fa fa-trash-o fa-fw"></i> Delete all notes</a>
+                </li>
+            </ul>
+	<p:fieldset id="fs" legend="#{tareasMB.puesto}" toggleable="false" toggleSpeed="500" style="width:50%;margin-bottom:20px">
+	
+		<ui:repeat value="#{facesContext.messageList}" var="facesMessage" varStatus="imsg">
+             <p:panel id="facesMessage" header="#{facesMessage.summary}" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
+              <p:ajax event="close" update="@this"  />
+        	  <p:ajax event="toggle" update="@this"  />
+              <h:outputText value="#{facesMessage.detail}" escape="false" />
+            
+      		</p:panel>
+      
+    </ui:repeat>
+    	  
+    </p:fieldset>
+	    
+	</h:form>
+ 
+<p:separator />
+
+</ui:define>
+</ui:composition>
+
+</body>
+</html>

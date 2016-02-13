@@ -56,9 +56,9 @@
 
 	</p:panelGrid>
 	
-	<p:dock position="bottom">
-	    <p:menuitem value="Home" icon="/resources/img/dock/history.png" action="#{dashboardMB.generaInformeEstado}"/>
-	    <p:menuitem value="Music" icon="/resources/img/dock/home.png" url="#"/>
+	<p:dock position="bottom" rendered="#{sec:areAllGranted('ADMIN')}">
+	    <p:menuitem value="Informe" icon="/resources/img/dock/history.png" action="#{dashboardMB.generaInformeEstado}"/>
+	    <p:menuitem value="Tareas" icon="/resources/img/dock/calendar.png" url="tareas.xhtml"/>
 	   
 	</p:dock>
 				    

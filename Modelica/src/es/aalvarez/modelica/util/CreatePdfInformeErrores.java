@@ -304,7 +304,7 @@ public class CreatePdfInformeErrores {
 	            PdfPTable moreData = new PdfPTable(new float[] {5});
 	            moreData.setWidthPercentage(100);
 	            moreData.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-	            p  = new Phrase("EXPEDIENTES CON ERRORES" +this.expedientesConErrores.size(), font5);
+	            p  = new Phrase("EXPEDIENTES CON ERRORES: " +this.expedientesConErrores.size(), font5);
 	            moreData.addCell(p);
 	            for(Expediente e : this.expedientesConErrores){
 	            	String texto = "Expediente: "+e.getId()+" - "+e.getInteresado()+" - Tipo: "+e.getTipoExpediente()+" - Actuación: "+e.getActuacion();
