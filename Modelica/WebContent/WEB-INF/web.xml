@@ -51,5 +51,8 @@
        <param-name>log4jConfiguration</param-name>
        <param-value>log4j2.xml</param-value>
     </context-param>
-   
+   <session-config>
+      <!-- in minutes -->
+      <session-timeout>360</session-timeout>
+   </session-config>
 </web-app>

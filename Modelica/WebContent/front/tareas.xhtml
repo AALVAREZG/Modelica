@@ -6,55 +6,93 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:sec="http://www.springframework.org/security/tags">
   <h:head>
+  <link href='http://fonts.googleapis.com/css?family=Short+Stack' rel='stylesheet' type='text/css'/>
   </h:head>
   <body>
 <ui:composition template="/WEB-INF/template/Layout.xhtml">
+<ui:define name="header">
+
+ <h:outputStylesheet library="css" name="style-sheader.css" />
+        <div id="header-wrapper">
+        <div id="header" class="container">
+        
+       
+        
+       <div id="logo">
+               <h:graphicImage library="img" name="escudo_fondo_transparente.gif" width="100"></h:graphicImage>
+            
+       </div>
+       <div id="titulo">
+            <h2><a href="#">Gestión Expedientes Urbamisno</a></h2>
+            <h2><a href="#">Ayuntamiento de Casariche</a></h2>
+       </div>
+        <div id="menu">
+            <ul>
+                <li class="current_page_item"><a href="#{request.contextPath}" accesskey="1" title="">INICIO</a></li>
+                <li><a href="#"><h:outputText value="#{request.remoteUser}"/></a></li>
+                <li><h:outputLink value="#{request.contextPath}/login?logout">SALIR</h:outputLink></li>
+              
+            </ul>
+        </div>
+        <div id="version"><h:outputText value="#{bundle.modelicaVersion} - build with #{bundle.primefacesVersion} on #{bundle.jsfVersion}."/></div>
+    </div>
+   
+    <div id="auxdata">
+    <h:form>
+    <p:toolbar id="tb">
+	    <f:facet name="right">
+	    <p:outputLabel value="#{tareasMB.puesto}"></p:outputLabel>
+	   
+	    </f:facet>
+	    
+	</p:toolbar>
+	</h:form>
+	</div>
+	
+	 </div>
+	
+</ui:define>
 <ui:define name="content">
 <h:outputStylesheet library="css" name="style-dashboard.css" />
-<h:outputStylesheet library="css" href="jquery.postitall.css" />
+<h:outputStylesheet library="css" name="sticky.css" />
 <h:outputScript library="js" name="calendar_es.js"/>
-<h:outputScript library="js" name="jquery.postitall.js"/>
-<h:outputScript library="js" name="jquery.min.js"/>
+<h:outputScript library="js" name="sticky.js"/>
 
-
-
-
-    <h:form>
-    <ul class="nav navbar-nav pull-left">
-                <li class="nav-item"><a class="navbar-brand" href="index.html" id="idTitle">Post It All!</a></li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#home">Jquery plugin <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="extension.html">Chrome Extension</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav pull-right">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="idAddNote"><i class="fa fa-sticky-note-o fa-fw"></i> Add a new note!</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="idDeleteAll2"><i class="fa fa-trash-o fa-fw"></i> Delete all notes</a>
-                </li>
-            </ul>
-	<p:fieldset id="fs" legend="#{tareasMB.puesto}" toggleable="false" toggleSpeed="500" style="width:50%;margin-bottom:20px">
+<h:form>    
+   
 	
-		<ui:repeat value="#{facesContext.messageList}" var="facesMessage" varStatus="imsg">
-             <p:panel id="facesMessage" header="#{facesMessage.summary}" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
-              <p:ajax event="close" update="@this"  />
-        	  <p:ajax event="toggle" update="@this"  />
-              <h:outputText value="#{facesMessage.detail}" escape="false" />
-            
-      		</p:panel>
+	<div>
+		
+   		
+   		<ul class="sticky_notes">
+			
+    	<ui:repeat value="#{facesContext.messageList}" var="facesMessage" varStatus="imsg">
+			<script type="text/javascript">
+	        var header = "#{facesMessage.summary}";
+	        var detail = "#{facesMessage.detail}"
+	        createNotes(header,detail);
+	       
+	    	</script>
+        </ui:repeat>
+        </ul>
+	</div>
+	
       
-    </ui:repeat>
-    	  
-    </p:fieldset>
-	    
-	</h:form>
+    
+   
+    </h:form> 
+    
+	
+	
  
-<p:separator />
 
+<script type="text/javascript">
+$(function() {
+    // Do any work you want to occur when the DOM is ready here.
+
+    $("#newButton").click(createNotes('1','252112'));
+}
+</script>
 </ui:define>
 </ui:composition>
 
